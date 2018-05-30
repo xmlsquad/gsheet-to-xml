@@ -5,6 +5,8 @@ namespace Forikal\GsheetXml\Command;
 use Forikal\GsheetXml\Application\Service\GoogleClientFactory;
 use Forikal\GsheetXml\Application\Service\GoogleDriveProcessService;
 use Forikal\GsheetXml\Application\Service\GoogleSpreadsheetReadService;
+use Forikal\GsheetXml\Application\Service\XmlSerializer;
+use Forikal\GsheetXml\Model\InventoryFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,11 +30,14 @@ class GsheetToXmlCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('drive-url');
-        $output->writeln($url);
 
         $credentialsPath = __DIR__ . "/../../client_secret.json";
 
-        $service = new GoogleDriveProcessService($credentialsPath);
-        $service->process($url);
+        $serializer = new XmlSerializer();
+        $inventoryFactory = new InventoryFactory();
+
+        $service = new GoogleDriveProcessService($credentialsPath, $inventoryFactory, $serializer);
+        $xml = $service->process($url);
+        $output->writeln($xml);
     }
 }

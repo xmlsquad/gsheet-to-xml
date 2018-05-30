@@ -16,5 +16,8 @@
       "name": "Zoran Antolovic",
       "email": "zoran.antolovic.os@gmail.com"
     }
-  ]
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^7.1"
+  }
 }
