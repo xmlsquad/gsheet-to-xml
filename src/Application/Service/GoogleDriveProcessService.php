@@ -3,26 +3,33 @@
 namespace Forikal\GsheetXml\Application\Service;
 
 use Exception;
+use Forikal\GsheetXml\Model\InventoryFactory;
 
 class GoogleDriveProcessService
 {
     /** @var string string */
     private $credentialsPath;
 
-    public function __construct(string $credentialsPath)
-    {
+    /** @var InventoryFactory */
+    private $inventoryFactory;
+
+    /** @var XmlSerializer */
+    private $xmlSerializer;
+
+    public function __construct(
+        string $credentialsPath,
+        InventoryFactory $inventoryFactory,
+        XmlSerializer $xmlSerializer
+    ) {
         $this->credentialsPath = $credentialsPath;
+        $this->inventoryFactory = $inventoryFactory;
+        $this->xmlSerializer = $xmlSerializer;
     }
 
     public function process($url)
     {
         if ($this->isSpreadsheet($url)) {
-            $id = $this->parseSpreadsheetIdFromUrl($url);
-            if (true === empty($id)) {
-                throw new Exception('Cant parse spreadsheet ID from the URL ' . $url);
-            }
-
-            return $this->processSpreadsheet($id);
+            return $this->processSpreadsheet($url);
         }
 
         if ($this->isFolder($url)) {
@@ -62,17 +69,31 @@ class GoogleDriveProcessService
         return false;
     }
 
-    public function processSpreadsheet(string $spreadSheetId)
+    public function processSpreadsheet(string $url): string
     {
+        $spreadsheetId = $this->parseSpreadsheetIdFromUrl($url);
+        if (true === empty($spreadsheetId)) {
+            throw new Exception('Cant parse spreadsheet ID from the URL ' . $url);
+        }
+
         $clientFactory = new GoogleClientFactory();
         $client = $clientFactory->createClient($this->credentialsPath);
 
         $service = new GoogleSpreadsheetReadService($client);
-        $data = $service->getSpreadsheetData($spreadSheetId);
-        var_dump($data);
+        $data = $service->getSpreadsheetData($spreadsheetId);
+
+        $inventories = [];
+        foreach ($data as $inventoryData) {
+            $inventories[] = $this->inventoryFactory->make($inventoryData, $url);
+        }
+
+        $xml = $this->xmlSerializer->serialize($inventories);
+
+        return $xml;
     }
 
     public function processFolder(string $folderId)
     {
+
     }
 }
