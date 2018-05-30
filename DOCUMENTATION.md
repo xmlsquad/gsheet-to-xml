@@ -28,6 +28,14 @@ find in the JSON file.
 `--credentials` is optional parameter that specifies path to the credentials file with Google secret. Path
 must be relative to the directory you're calling the script from.
 
+# Behavior
+
+- Empty rows are skipped without notice.
+- Files ending with _ (underscore) are ignored (e.g. foo_.xslx, foo_)
+- Tabs ending with _ (underscore) are ignored
+- When parsing folders, for every spreadsheet found new `<Product>` XML element is created with `src-spreadsheet` attribute
+containing the spreadsheet ID.
+
 # Tests
 Run `./vendor/bin/phpunit` to execute test suite
 
