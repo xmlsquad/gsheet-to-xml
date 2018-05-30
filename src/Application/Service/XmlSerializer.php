@@ -38,7 +38,13 @@ class XmlSerializer
             $stockItemXmlElement->appendChild($dom->createElement('Name', $stockItem->getName()));
 
             // @todo resolve multiple values and handling here
-            $stockItemXmlElement->appendChild($dom->createElement('Purposes', $stockItem->getPurpose()));
+            $purpose = $stockItem->getPurpose();
+            $purposesXmlElement = $dom->createElement('Purposes');
+            $purposes = explode(',', $purpose);
+            foreach ($purposes as $purposeValue) {
+                $purposesXmlElement->appendChild($dom->createElement('Purpose', $purposeValue));
+            }
+            $stockItemXmlElement->appendChild($purposesXmlElement);
 
             $stockItemXmlElement->appendChild($dom->createElement('PurposeOther', $stockItem->getPurposeOther()));
             $stockItemXmlElement->appendChild($dom->createElement('InventoryQuantity',
