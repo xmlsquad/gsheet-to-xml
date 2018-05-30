@@ -39,7 +39,13 @@ class GoogleDriveProcessService
         throw new Exception('URL is not either Spreadsheet nor folder');
     }
 
-    // @todo test
+    public function parseFolderIdFromUrl(string $url): ?string
+    {
+        preg_match("/\/folders\/([a-zA-Z0-9-_]+)\/?/", $url, $result);
+
+        return $result[1] ?? null;
+    }
+
     public function isFolder(string $url): bool
     {
         if (strpos($url, '/folders/') !== false) {
@@ -59,7 +65,6 @@ class GoogleDriveProcessService
         return $result[1] ?? null;
     }
 
-    // @todo test
     public function isSpreadsheet(string $url): bool
     {
         if (strpos($url, '/spreadsheets/') !== false) {
@@ -69,6 +74,14 @@ class GoogleDriveProcessService
         return false;
     }
 
+    private function makeClient()
+    {
+        $clientFactory = new GoogleClientFactory();
+        $client = $clientFactory->createClient($this->credentialsPath);
+
+        return $client;
+    }
+
     public function processSpreadsheet(string $url): string
     {
         $spreadsheetId = $this->parseSpreadsheetIdFromUrl($url);
@@ -76,9 +89,7 @@ class GoogleDriveProcessService
             throw new Exception('Cant parse spreadsheet ID from the URL ' . $url);
         }
 
-        $clientFactory = new GoogleClientFactory();
-        $client = $clientFactory->createClient($this->credentialsPath);
-
+        $client = $this->makeClient();
         $service = new GoogleSpreadsheetReadService($client);
         $data = $service->getSpreadsheetData($spreadsheetId);
 
@@ -87,13 +98,40 @@ class GoogleDriveProcessService
             $inventories[] = $this->inventoryFactory->make($inventoryData, $url);
         }
 
-        $xml = $this->xmlSerializer->serialize($inventories);
+        $xml = $this->xmlSerializer->serializeSingleProduct($inventories);
 
         return $xml;
     }
 
-    public function processFolder(string $folderId)
+    public function processFolder(string $url)
     {
+        $folderId = $this->parseFolderIdFromUrl($url);
+        if (true === empty($folderId)) {
+            throw new Exception('Cant parse folder ID from the URL ' . $url);
+        }
 
+        $client = $this->makeClient();
+        $driveService = new GoogleDriveFolderReadService($client);
+        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId);
+
+        $spreadsheetService = new GoogleSpreadsheetReadService($client);
+        $spreadsheetsInventories = [];
+        foreach ($spreadsheetFileIds as $spreadsheetFileId) {
+            $data = $spreadsheetService->getSpreadsheetData($spreadsheetFileId);
+            $inventories = [];
+            foreach ($data as $inventoryData) {
+                $inventories[] = $this->inventoryFactory->make($inventoryData, $url);
+            }
+
+            $spreadsheetsInventories[] = [
+                'spreadsheetId'          => $spreadsheetFileId,
+                'spreadsheetInventories' => $inventories,
+            ];
+        }
+
+        $xml = $this->xmlSerializer->serializeMultipleProducts($spreadsheetsInventories);
+
+        return $xml;
     }
+
 }
