@@ -1,3 +1,10 @@
+# Installation
+- Clone this project
+- Run `composer install`
+- test the console app: `php bin/console.php --help`
+
+__Note__ Make sure you're using at least PHP 7.1
+
 # Google API Setup
 - Create project on https://console.developers.google.com/apis/dashboard.
 - Click Enable APIs and enable the Google Sheets API and the Google Drive API
@@ -25,10 +32,10 @@ must be relative to the directory you're calling the script from.
 Run `./vendor/bin/phpunit` to execute test suite
 
 # Resources
-https://www.fillup.io/post/read-and-write-google-sheets-from-php/
-https://developers.google.com/sheets/api/samples/reading
-https://stackoverflow.com/a/16840612
-https://developers.google.com/sheets/api/guides/concepts
+- https://www.fillup.io/post/read-and-write-google-sheets-from-php/
+- https://developers.google.com/sheets/api/samples/reading
+- https://stackoverflow.com/a/16840612
+- https://developers.google.com/sheets/api/guides/concepts
 
 # Troubleshooting
 - You have to enable both Sheets and Drive API
