@@ -36,7 +36,7 @@ class GoogleDriveProcessService
             return $this->processFolder($url);
         }
 
-        throw new Exception('URL is not either Spreadsheet nor folder');
+        throw new Exception('URL is not either Google Spreadsheet nor Google Drive Folder');
     }
 
     public function parseFolderIdFromUrl(string $url): ?string
@@ -133,5 +133,4 @@ class GoogleDriveProcessService
 
         return $xml;
     }
-
 }

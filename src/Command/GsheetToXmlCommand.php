@@ -2,14 +2,14 @@
 
 namespace Forikal\GsheetXml\Command;
 
-use Forikal\GsheetXml\Application\Service\GoogleClientFactory;
+use Exception;
 use Forikal\GsheetXml\Application\Service\GoogleDriveProcessService;
-use Forikal\GsheetXml\Application\Service\GoogleSpreadsheetReadService;
 use Forikal\GsheetXml\Application\Service\XmlSerializer;
 use Forikal\GsheetXml\Model\InventoryFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GsheetToXmlCommand extends Command
@@ -24,6 +24,13 @@ class GsheetToXmlCommand extends Command
                 'drive-url',
                 InputArgument::REQUIRED,
                 'The URL of the Google Drive entity (Google Sheet or Google Drive folder). is-recursive: if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.'
+            )
+            ->addOption(
+                'credentials',
+                'c',
+                InputOption::VALUE_OPTIONAL,
+                'Path to the Google credentials JSON relative to the current working directory',
+                'client_secret.json'
             );
     }
 
@@ -31,7 +38,12 @@ class GsheetToXmlCommand extends Command
     {
         $url = $input->getArgument('drive-url');
 
-        $credentialsPath = __DIR__ . "/../../client_secret.json";
+        $credentialsPath = $input->getOption('credentials');
+        $credentialsPath = getcwd() . '/' . ltrim($credentialsPath, '/');
+
+        if (false === is_file($credentialsPath)) {
+            throw new Exception('Credentials file not found');
+        }
 
         $serializer = new XmlSerializer();
         $inventoryFactory = new InventoryFactory();

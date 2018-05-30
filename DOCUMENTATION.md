@@ -5,17 +5,21 @@
 - Choose New service account in the drop down. Give the account a name, anything is fine
 - For Role I selected Project -> Editor
 - For Key type, choose JSON (the default) and download the file. 
-This file contains a private key so be very careful with it, it is your credentials after all
+This file contains a private key so be very careful with it, it is your credentials after all. 
+Content of the file should be similar to `client_secret.json.dist` 
 - Finally, edit the sharing permissions for the spreadsheet you want to access and share either View 
 (if you only want to read the file) or Edit (if you need read/write) access to the client_email address you can 
 find in the JSON file.
 
 # Usage
-`php bin/console.php forikal:gsheet-to-xml {URL}`
+`php bin/console.php forikal:gsheet-to-xml {URL} [--credentials=client_secret.json]`
 
-URL should be either Drive or Sheets URL in one of following formats
+`{URL}` should be either Drive or Sheets URL in one of following formats
 - https://drive.google.com/drive/folders/xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx
 - https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit
+
+`--credentials` is optional parameter that specifies path to the credentials file with Google secret. Path
+must be relative to the directory you're calling the script from.
 
 # Tests
 Run `./vendor/bin/phpunit` to execute test suite
