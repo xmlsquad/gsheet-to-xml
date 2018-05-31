@@ -4,6 +4,10 @@ Symfony Console command that, given the URL of a (specifically structured) Googl
 
 Designed be used in the context of the Symfony Console application at https://github.com/forikal-uk/xml-authoring-tools which, in turn, is used in the context of a known directory structure which is based on [xml-authoring-project](https://github.com/forikal-uk/xml-authoring-project).
 
+# Documentation
+
+See: https://github.com/forikal-uk/gsheet-to-xml/blob/master/DOCUMENTATION.md
+
 # Schema descriptions
 
 I have published
