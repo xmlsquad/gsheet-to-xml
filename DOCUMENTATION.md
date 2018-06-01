@@ -6,17 +6,9 @@
 __Note__ Make sure you're using at least PHP 7.1
 
 # Google API Setup
-- Create project on https://console.developers.google.com/apis/dashboard.
-- Click Enable APIs and enable the Google Sheets API and the Google Drive API
-- Go to Credentials, then click Create credentials, and select Service account key
-- Choose New service account in the drop down. Give the account a name, anything is fine
-- For Role I selected Project -> Editor
-- For Key type, choose JSON (the default) and download the file. 
-This file contains a private key so be very careful with it, it is your credentials after all. 
-Content of the file should be similar to `client_secret.json.dist` 
-- Finally, edit the sharing permissions for the spreadsheet you want to access and share either View 
-(if you only want to read the file) or Edit (if you need read/write) access to the client_email address you can 
-find in the JSON file.
+
+See: [How to: Google API Setup](https://github.com/forikal-uk/xml-authoring-library/blob/master/HowTo-GoogleAPISetup.md)
+
 
 # Usage
 `php bin/console.php forikal:gsheet-to-xml {URL} [--credentials=client_secret.json]`
