@@ -98,7 +98,7 @@ class GoogleDriveProcessService
             $inventories[] = $this->inventoryFactory->make($inventoryData, $url);
         }
 
-        $xml = $this->xmlSerializer->serializeSingleProduct($inventories);
+        $xml = $this->xmlSerializer->serializeInventories($inventories);
 
         return $xml;
     }
@@ -114,22 +114,22 @@ class GoogleDriveProcessService
         $driveService = new GoogleDriveFolderReadService($client);
         $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId);
 
-        $spreadsheetService = new GoogleSpreadsheetReadService($client);
-        $spreadsheetsInventories = [];
-        foreach ($spreadsheetFileIds as $spreadsheetFileId) {
-            $data = $spreadsheetService->getSpreadsheetData($spreadsheetFileId);
-            $inventories = [];
-            foreach ($data as $inventoryData) {
-                $inventories[] = $this->inventoryFactory->make($inventoryData, $url);
-            }
+        /**
+         * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.
+         */
 
-            $spreadsheetsInventories[] = [
-                'spreadsheetId'          => $spreadsheetFileId,
-                'spreadsheetInventories' => $inventories,
-            ];
+        $spreadsheetService = new GoogleSpreadsheetReadService($client);
+        $inventories = [];
+        foreach ($spreadsheetFileIds as $spreadsheetFileId) {
+            $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId);
+            $sheetUrl = "https://docs.google.com/spreadsheets/d/{$spreadsheetFileId}/";
+
+            foreach ($sheetsData as $sheetData) {
+                $inventories[] = $this->inventoryFactory->make($sheetData, $sheetUrl);
+            }
         }
 
-        $xml = $this->xmlSerializer->serializeMultipleProducts($spreadsheetsInventories);
+        $xml = $this->xmlSerializer->serializeInventories($inventories);
 
         return $xml;
     }

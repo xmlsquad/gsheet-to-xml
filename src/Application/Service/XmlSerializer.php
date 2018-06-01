@@ -21,7 +21,8 @@ class XmlSerializer
     private function buildInventoryElement(DOMDocument $dom, Inventory $inventory)
     {
         $inventoryXmlElement = $dom->createElement('Inventory');
-        $inventoryXmlElement->setAttribute('src-sheet', $inventory->getSpreadsheetUrl());
+        $inventoryXmlElement->setAttribute('src-sheet', $inventory->getSpreadsheetName());
+        $inventoryXmlElement->setAttribute('src-sheet-url', $inventory->getSpreadsheetUrl());
         $inventoryXmlElement->setAttribute('src-tab', $inventory->getSheetName());
 
         /** @var StockItem $stockItem */
@@ -37,13 +38,8 @@ class XmlSerializer
                 $stockItem->getInventoryContainerId()));
             $stockItemXmlElement->appendChild($dom->createElement('Name', $stockItem->getName()));
 
-            // @todo resolve multiple values and handling here
-            $purpose = $stockItem->getPurpose();
             $purposesXmlElement = $dom->createElement('Purposes');
-            $purposes = explode(',', $purpose);
-            foreach ($purposes as $purposeValue) {
-                $purposesXmlElement->appendChild($dom->createElement('Purpose', $purposeValue));
-            }
+            $purposesXmlElement->appendChild($dom->createElement('Purpose', $stockItem->getPurpose()));
             $stockItemXmlElement->appendChild($purposesXmlElement);
 
             $stockItemXmlElement->appendChild($dom->createElement('PurposeOther', $stockItem->getPurposeOther()));
@@ -59,39 +55,16 @@ class XmlSerializer
         return $inventoryXmlElement;
     }
 
-    public function serializeSingleProduct(array $inventories)
+    public function serializeInventories(array $inventories)
     {
         $dom = new DomDocument("1.0", "UTF-8");
         $products = $dom->createElement('Products');
-        $product = $dom->createElement('Product');
 
         /** @var Inventory $inventory */
         foreach ($inventories as $inventory) {
+            $product = $dom->createElement('Product');
             $inventoryXmlElement = $this->buildInventoryElement($dom, $inventory);
             $product->appendChild($inventoryXmlElement);
-        }
-
-        $products->appendChild($product);
-        $dom->appendChild($products);
-
-        return $this->outputFormattedXml($dom);
-    }
-
-    public function serializeMultipleProducts(array $productsInventories)
-    {
-        $dom = new DomDocument("1.0", "UTF-8");
-        $products = $dom->createElement('Products');
-
-        foreach ($productsInventories as $productInventories) {
-            $product = $dom->createElement('Product');
-            $product->setAttribute('src-spreadsheet', $productInventories['spreadsheetId']);
-
-            /** @var Inventory $inventory */
-            foreach ($productInventories['spreadsheetInventories'] as $inventory) {
-                $inventoryXmlElement = $this->buildInventoryElement($dom, $inventory);
-                $product->appendChild($inventoryXmlElement);
-            }
-
             $products->appendChild($product);
         }
 

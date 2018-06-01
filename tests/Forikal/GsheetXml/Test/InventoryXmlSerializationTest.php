@@ -76,8 +76,7 @@ class InventoryXmlSerializationTest extends TestCase
         <InventoryContainerID>xx33</InventoryContainerID>
         <Name>Product 2</Name>
         <Purposes>
-          <Purpose>22</Purpose>
-          <Purpose>33</Purpose>
+          <Purpose>22,33</Purpose>
         </Purposes>
         <PurposeOther>2x2x</PurposeOther>
         <InventoryQuantity>88888</InventoryQuantity>
