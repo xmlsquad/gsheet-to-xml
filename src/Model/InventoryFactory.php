@@ -8,7 +8,8 @@ class InventoryFactory
     {
         $inventory = new Inventory();
         $inventory->setSpreadsheetUrl($url);
-        $inventory->setSheetName($data['title'] ?? null);
+        $inventory->setSheetName($data['sheetTitle'] ?? null);
+        $inventory->setSpreadsheetName($data['spreadsheetTitle'] ?? null);
 
         $stockItems = $this->processStockItems($data);
         $inventory->setStockItems($stockItems);

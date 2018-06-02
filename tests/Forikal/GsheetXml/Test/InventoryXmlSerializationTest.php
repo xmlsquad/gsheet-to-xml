@@ -16,6 +16,7 @@ class InventoryXmlSerializationTest extends TestCase
         // Test for GSheet with a single tab
         $inventory = new Inventory();
         $inventory->setSheetName('Sheet 1');
+        $inventory->setSpreadsheetName('Spreadsheet x');
         $inventory->setSpreadsheetUrl('https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit');
 
         $stockItems = [];
@@ -46,13 +47,13 @@ class InventoryXmlSerializationTest extends TestCase
         $inventory->setStockItems($stockItems);
 
         $serializer = new XmlSerializer();
-        $xml = $serializer->serializeSingleProduct([$inventory]);
+        $xml = $serializer->serializeInventories([$inventory]);
 
         $expectedXml = <<<XML
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Products>
   <Product>
-    <Inventory src-sheet="https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit" src-tab="Sheet 1">
+    <Inventory src-sheet="Spreadsheet x" src-sheet-url="https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit" src-tab="Sheet 1">
       <StockItem>
         <KNumberExists>true</KNumberExists>
         <KNumber>111111</KNumber>
@@ -76,8 +77,7 @@ class InventoryXmlSerializationTest extends TestCase
         <InventoryContainerID>xx33</InventoryContainerID>
         <Name>Product 2</Name>
         <Purposes>
-          <Purpose>22</Purpose>
-          <Purpose>33</Purpose>
+          <Purpose>22,33</Purpose>
         </Purposes>
         <PurposeOther>2x2x</PurposeOther>
         <InventoryQuantity>88888</InventoryQuantity>

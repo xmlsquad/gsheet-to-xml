@@ -7,6 +7,8 @@ use Symfony\Component\Console\Application;
 
 $application = new Application();
 
-$application->add(new GsheetToXmlCommand());
+$command = new GsheetToXmlCommand();
+$application->add($command);
+$application->setDefaultCommand($command->getName(), true);
 
 $application->run();

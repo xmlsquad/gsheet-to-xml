@@ -20,6 +20,7 @@ class GoogleSpreadsheetReadService
     {
         $service = new Google_Service_Sheets($this->client);
         $spreadsheet = $service->spreadsheets->get($spreadsheetId);
+        $spreadsheetTitle = $spreadsheet->getProperties()->getTitle();
         $sheets = $spreadsheet->getSheets();
 
         $data = [];
@@ -37,11 +38,15 @@ class GoogleSpreadsheetReadService
                 continue;
             }
 
-            $sheetData = $this->parseSheet(
-                $service,
-                $spreadsheetId,
-                $sheet
-            );
+            $sheetData = [
+                'sheetTitle'       => $sheet->getProperties()->getTitle(),
+                'spreadsheetTitle' => $spreadsheetTitle,
+                'values'           => $this->parseSheet(
+                    $service,
+                    $spreadsheetId,
+                    $sheet
+                ),
+            ];
 
             $data[] = $sheetData;
         }
@@ -49,7 +54,8 @@ class GoogleSpreadsheetReadService
         return $data;
     }
 
-    private function parseSheet(
+    private function
+    parseSheet(
         Google_Service_Sheets $service,
         string $spreadsheetId,
         Google_Service_Sheets_Sheet $sheet
@@ -73,12 +79,7 @@ class GoogleSpreadsheetReadService
             $values = $this->combineSheetDataWithHeadings($data['values']);
         }
 
-        $sheetData = [
-            'title'  => $sheet->getProperties()->getTitle(),
-            'values' => $values,
-        ];
-
-        return $sheetData;
+        return $values;
     }
 
     /**

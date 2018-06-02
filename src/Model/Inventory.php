@@ -10,6 +10,9 @@ class Inventory
     /** @var string|null */
     private $sheetName;
 
+    /** @var string|null */
+    private $spreadsheetName;
+
     /** @var array */
     private $stockItems = [];
 
@@ -41,5 +44,15 @@ class Inventory
     public function setStockItems(array $stockItems): void
     {
         $this->stockItems = $stockItems;
+    }
+
+    public function getSpreadsheetName(): ?string
+    {
+        return $this->spreadsheetName;
+    }
+
+    public function setSpreadsheetName(?string $spreadsheetName): void
+    {
+        $this->spreadsheetName = $spreadsheetName;
     }
 }
