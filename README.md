@@ -35,8 +35,9 @@ If a Google Sheet's tab is named `foo_`, then it is assumed to be 'private' and 
 
 ## Input
 
-drive-url: The URL of the Google Drive entity (Google Sheet or Google Drive folder).
-is-recursive: if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.
+- drive-url: The URL of the Google Drive entity (Google Sheet or Google Drive folder).
+
+- is-recursive: if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.
 
 
 ## Behaviour
