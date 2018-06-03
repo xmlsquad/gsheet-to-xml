@@ -25,7 +25,7 @@ must be relative to the directory you're calling the script from.
 - Empty rows are skipped without notice.
 - Files ending with _ (underscore) are ignored (e.g. foo_.xslx, foo_)
 - Tabs ending with _ (underscore) are ignored
-- When parsing folders, for every spreadsheet found new `<Product>` XML element is created with `src-spreadsheet` attribute
+- When parsing folders, for every spreadsheet found new `<Product><Inventory>` XML element is created with `src-sheet-url` attribute
 containing the spreadsheet ID.
 
 # Tests
