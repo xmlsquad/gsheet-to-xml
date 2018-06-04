@@ -5,13 +5,15 @@ namespace Forikal\GsheetXml\Test;
 use Forikal\GsheetXml\Application\Service\GoogleDriveProcessService;
 use Forikal\GsheetXml\Application\Service\XmlSerializer;
 use Forikal\GsheetXml\Model\InventoryFactory;
+use Forikal\Library\GoogleAPI\GoogleAPIClient;
 use PHPUnit\Framework\TestCase;
 
 class GoogleDriveProcessServiceTest extends TestCase
 {
     public function testUrlRecognition()
     {
-        $service = new GoogleDriveProcessService('foo', new InventoryFactory(), new XmlSerializer());
+        $googleClient = new GoogleAPIClient();
+        $service = new GoogleDriveProcessService($googleClient, new InventoryFactory(), new XmlSerializer());
 
         $spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit';
         $folderUrl = 'https://drive.google.com/drive/folders/xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx';
@@ -25,7 +27,8 @@ class GoogleDriveProcessServiceTest extends TestCase
 
     public function testFolderUrlParsing()
     {
-        $service = new GoogleDriveProcessService('foo', new InventoryFactory(), new XmlSerializer());
+        $googleClient = new GoogleAPIClient();
+        $service = new GoogleDriveProcessService($googleClient, new InventoryFactory(), new XmlSerializer());
         $folderUrl = 'https://drive.google.com/drive/folders/xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx';
         $folderId = 'xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx';
         $this->assertEquals($folderId, $service->parseFolderIdFromUrl($folderUrl));
@@ -33,7 +36,8 @@ class GoogleDriveProcessServiceTest extends TestCase
 
     public function testSpreadsheetUrlParsing()
     {
-        $service = new GoogleDriveProcessService('foo', new InventoryFactory(), new XmlSerializer());
+        $googleClient = new GoogleAPIClient();
+        $service = new GoogleDriveProcessService($googleClient, new InventoryFactory(), new XmlSerializer());
         $spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit';
         $spreadsheetId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
         $this->assertEquals($spreadsheetId, $service->parseSpreadsheetIdFromUrl($spreadsheetUrl));

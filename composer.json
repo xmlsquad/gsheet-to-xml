@@ -6,7 +6,8 @@
   "require": {
     "php": ">=7.1",
     "google/apiclient": "^2.0",
-    "symfony/console": "~3.4"
+    "symfony/console": "~3.4",
+    "forikal-uk/xml-authoring-library": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {
@@ -24,6 +25,6 @@
     "phpunit/phpunit": "^7.1"
   },
   "bin": [
-    "bin/gsheetxml"
+    "bin/gsheet-to-xml.php"
   ]
 }

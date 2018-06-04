@@ -4,11 +4,12 @@ namespace Forikal\GsheetXml\Application\Service;
 
 use Exception;
 use Forikal\GsheetXml\Model\InventoryFactory;
+use Forikal\Library\GoogleAPI\GoogleAPIClient;
 
 class GoogleDriveProcessService
 {
-    /** @var string string */
-    private $credentialsPath;
+    /** @var GoogleAPIClient */
+    private $client;
 
     /** @var InventoryFactory */
     private $inventoryFactory;
@@ -17,11 +18,11 @@ class GoogleDriveProcessService
     private $xmlSerializer;
 
     public function __construct(
-        string $credentialsPath,
+        GoogleAPIClient $client,
         InventoryFactory $inventoryFactory,
         XmlSerializer $xmlSerializer
     ) {
-        $this->credentialsPath = $credentialsPath;
+        $this->client = $client;
         $this->inventoryFactory = $inventoryFactory;
         $this->xmlSerializer = $xmlSerializer;
     }
@@ -74,14 +75,6 @@ class GoogleDriveProcessService
         return false;
     }
 
-    private function makeClient()
-    {
-        $clientFactory = new GoogleClientFactory();
-        $client = $clientFactory->createClient($this->credentialsPath);
-
-        return $client;
-    }
-
     public function processSpreadsheet(string $url): string
     {
         $spreadsheetId = $this->parseSpreadsheetIdFromUrl($url);
@@ -89,8 +82,7 @@ class GoogleDriveProcessService
             throw new Exception('Cant parse spreadsheet ID from the URL ' . $url);
         }
 
-        $client = $this->makeClient();
-        $service = new GoogleSpreadsheetReadService($client);
+        $service = new GoogleSpreadsheetReadService($this->client);
         $data = $service->getSpreadsheetData($spreadsheetId);
 
         $inventories = [];
@@ -110,14 +102,13 @@ class GoogleDriveProcessService
             throw new Exception('Cant parse folder ID from the URL ' . $url);
         }
 
-        $client = $this->makeClient();
-        $driveService = new GoogleDriveFolderReadService($client);
+        $driveService = new GoogleDriveFolderReadService($this->client);
         $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive);
 
         /**
          * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.
          */
-        $spreadsheetService = new GoogleSpreadsheetReadService($client);
+        $spreadsheetService = new GoogleSpreadsheetReadService($this->client);
         $inventories = [];
         foreach ($spreadsheetFileIds as $spreadsheetFileId) {
             $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId);
