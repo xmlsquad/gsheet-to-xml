@@ -8,6 +8,9 @@ use Google_Service_Drive_DriveFile;
 
 class GoogleDriveFolderReadService
 {
+    const FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder';
+    const SPREADSHEET_MIME_TYPE = 'application/vnd.google-apps.spreadsheet';
+
     /** @var Google_Client */
     private $client;
 
@@ -16,7 +19,7 @@ class GoogleDriveFolderReadService
         $this->client = $client;
     }
 
-    public function listSpreaadsheetsInFolder($folderId)
+    public function listSpreaadsheetsInFolder($folderId, bool $recursive)
     {
         $service = new Google_Service_Drive($this->client);
 
@@ -27,7 +30,7 @@ class GoogleDriveFolderReadService
         // In the Drive API, a folder is essentially a file — one identified by the special
         // folder MIME type application/vnd.google-apps.folder
         $mimeType = $file->getMimeType();
-        if ('application/vnd.google-apps.folder' !== $mimeType) {
+        if (self::FOLDER_MIME_TYPE !== $mimeType) {
             throw new \Exception("File with ID $folderId is not Google Drive Folder");
         }
 
@@ -40,7 +43,14 @@ class GoogleDriveFolderReadService
         $fileIds = [];
         /** @var Google_Service_Drive_DriveFile $childrenFile */
         foreach ($files as $childrenFile) {
-            if ('application/vnd.google-apps.spreadsheet' !== $childrenFile->getMimeType()) {
+
+            if (self::FOLDER_MIME_TYPE === $childrenFile->getMimeType() && true === $recursive) {
+                $subfolderSpreadsheets = $this->listSpreaadsheetsInFolder($childrenFile->getId(), true);
+                $fileIds = array_merge($fileIds, $subfolderSpreadsheets);
+                continue;
+            }
+
+            if (self::SPREADSHEET_MIME_TYPE !== $childrenFile->getMimeType()) {
                 continue;
             }
 

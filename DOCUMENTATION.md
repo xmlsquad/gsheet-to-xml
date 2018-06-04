@@ -1,7 +1,7 @@
 # Installation
 - Clone this project
 - Run `composer install`
-- test the console app: `php bin/console.php --help`
+- test the console app: `php bin/gsheet-to-xml.php --help`
 
 __Note__ Make sure you're using at least PHP 7.1
 
@@ -11,14 +11,17 @@ See: [How to: Google API Setup](https://github.com/forikal-uk/xml-authoring-libr
 
 
 # Usage
-`php bin/console.php forikal:gsheet-to-xml {URL} [--credentials=client_secret.json]`
+`php bin/gsheet-to-xml.php {URL} [--credentials=client_secret.json] [--recursive]`
 
 `{URL}` should be either Drive or Sheets URL in one of following formats
 - https://drive.google.com/drive/folders/xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx
 - https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit
 
-`--credentials` is optional parameter that specifies path to the credentials file with Google secret. Path
+`-c, --credentials` is optional parameter that specifies path to the credentials file with Google secret. Path
 must be relative to the directory you're calling the script from.
+
+`-r, --recursive` if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse 
+through sub-directories to find sheets.
 
 # Behavior
 

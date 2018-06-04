@@ -26,14 +26,14 @@ class GoogleDriveProcessService
         $this->xmlSerializer = $xmlSerializer;
     }
 
-    public function process($url)
+    public function process(string $url, bool $recursive)
     {
         if ($this->isSpreadsheet($url)) {
             return $this->processSpreadsheet($url);
         }
 
         if ($this->isFolder($url)) {
-            return $this->processFolder($url);
+            return $this->processFolder($url, $recursive);
         }
 
         throw new Exception('URL is not either Google Spreadsheet nor Google Drive Folder');
@@ -103,7 +103,7 @@ class GoogleDriveProcessService
         return $xml;
     }
 
-    public function processFolder(string $url)
+    public function processFolder(string $url, bool $recursive)
     {
         $folderId = $this->parseFolderIdFromUrl($url);
         if (true === empty($folderId)) {
@@ -112,12 +112,11 @@ class GoogleDriveProcessService
 
         $client = $this->makeClient();
         $driveService = new GoogleDriveFolderReadService($client);
-        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId);
+        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive);
 
         /**
          * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.
          */
-
         $spreadsheetService = new GoogleSpreadsheetReadService($client);
         $inventories = [];
         foreach ($spreadsheetFileIds as $spreadsheetFileId) {

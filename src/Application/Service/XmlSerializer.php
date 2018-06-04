@@ -22,8 +22,8 @@ class XmlSerializer
     {
         $inventoryXmlElement = $dom->createElement('Inventory');
         $inventoryXmlElement->setAttribute('src-sheet', $inventory->getSpreadsheetName());
-        $inventoryXmlElement->setAttribute('src-sheet-url', $inventory->getSpreadsheetUrl());
         $inventoryXmlElement->setAttribute('src-tab', $inventory->getSheetName());
+        $inventoryXmlElement->setAttribute('src-sheet-url', $inventory->getSpreadsheetUrl());
 
         /** @var StockItem $stockItem */
         foreach ($inventory->getStockItems() as $stockItem) {
