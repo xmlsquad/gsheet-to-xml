@@ -2,7 +2,7 @@
 
 namespace Forikal\GsheetXml\Application\Service;
 
-use Google_Client;
+use Forikal\Library\GoogleAPI\GoogleAPIClient;
 use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 
@@ -11,17 +11,18 @@ class GoogleDriveFolderReadService
     const FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder';
     const SPREADSHEET_MIME_TYPE = 'application/vnd.google-apps.spreadsheet';
 
-    /** @var Google_Client */
+    /** @var GoogleAPIClient */
     private $client;
 
-    public function __construct(Google_Client $client)
+    public function __construct(GoogleAPIClient $client)
     {
         $this->client = $client;
     }
 
     public function listSpreaadsheetsInFolder($folderId, bool $recursive)
     {
-        $service = new Google_Service_Drive($this->client);
+        /** @var Google_Service_Drive $service */
+        $service = $this->client->driveService;
 
         /** @var Google_Service_Drive_DriveFile $file */
         $file = $service->files->get($folderId);

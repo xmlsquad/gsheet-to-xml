@@ -2,23 +2,23 @@
 
 namespace Forikal\GsheetXml\Application\Service;
 
-use Google_Client;
+use Forikal\Library\GoogleAPI\GoogleAPIClient;
 use Google_Service_Sheets;
 use Google_Service_Sheets_Sheet;
 
 class GoogleSpreadsheetReadService
 {
-    /** @var Google_Client */
+    /** @var GoogleAPIClient */
     private $client;
 
-    public function __construct(Google_Client $client)
+    public function __construct(GoogleAPIClient $client)
     {
         $this->client = $client;
     }
 
     public function getSpreadsheetData($spreadsheetId)
     {
-        $service = new Google_Service_Sheets($this->client);
+        $service = $this->client->sheetsService;
         $spreadsheet = $service->spreadsheets->get($spreadsheetId);
         $spreadsheetTitle = $spreadsheet->getProperties()->getTitle();
         $sheets = $spreadsheet->getSheets();
@@ -54,8 +54,7 @@ class GoogleSpreadsheetReadService
         return $data;
     }
 
-    private function
-    parseSheet(
+    private function parseSheet(
         Google_Service_Sheets $service,
         string $spreadsheetId,
         Google_Service_Sheets_Sheet $sheet
