@@ -53,7 +53,7 @@ class InventoryXmlSerializationTest extends TestCase
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Products>
   <Product>
-    <Inventory src-sheet="Spreadsheet x" src-sheet-url="https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit" src-tab="Sheet 1">
+    <Inventory src-sheet="Spreadsheet x" src-tab="Sheet 1" src-sheet-url="https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit">
       <StockItem>
         <KNumberExists>true</KNumberExists>
         <KNumber>111111</KNumber>

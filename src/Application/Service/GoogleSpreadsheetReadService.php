@@ -95,8 +95,12 @@ class GoogleSpreadsheetReadService
                 continue;
             }
 
-            // First non-empty row are headings
-            if (true === empty($headings)) {
+            // Skip non-headings rows until we find headings
+            if (true === empty($headings) && false === $this->isHeadingsRow($row)) {
+                continue;
+            }
+
+            if (true === empty($headings) && true === $this->isHeadingsRow($row)) {
                 $headings = $row;
                 continue;
             }
@@ -122,6 +126,34 @@ class GoogleSpreadsheetReadService
         }
 
         if (true === isset($row[0]) && true === empty($row[0])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isHeadingsRow(?array $row): bool
+    {
+        if (true === empty($row)) {
+            return false;
+        }
+
+        $firstCellValue = $row[0] ?? null;
+        if (true === empty($firstCellValue)) {
+            return false;
+        }
+
+        $headingValues = [
+            'Name',
+            'KNumberExists',
+            'KNumber',
+            'Quantity',
+            'AlternativeNumber',
+            'Purpose',
+            'PurposeOther',
+        ];
+
+        if (true === in_array(trim($firstCellValue), $headingValues)) {
             return true;
         }
 

@@ -31,12 +31,19 @@ class GsheetToXmlCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Path to the Google credentials JSON relative to the current working directory',
                 'client_secret.json'
+            )
+            ->addOption(
+                'recursive',
+                'r',
+                InputOption::VALUE_NONE,
+                'if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('drive-url');
+        $recursive = $input->getOption('recursive');
 
         $credentialsPath = $input->getOption('credentials');
         $credentialsPath = getcwd() . '/' . ltrim($credentialsPath, '/');
@@ -49,7 +56,8 @@ class GsheetToXmlCommand extends Command
         $inventoryFactory = new InventoryFactory();
 
         $service = new GoogleDriveProcessService($credentialsPath, $inventoryFactory, $serializer);
-        $xml = $service->process($url);
+        $xml = $service->process($url, $recursive
+        );
         $output->writeln($xml);
     }
 }
