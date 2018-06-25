@@ -1,10 +1,10 @@
 <?php
 
-namespace Forikal\GsheetXml\Application\Service;
+namespace XmlSquad\GsheetXml\Application\Service;
 
 use Exception;
-use Forikal\GsheetXml\Model\InventoryFactory;
-use Forikal\Library\GoogleAPI\GoogleAPIClient;
+use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
 class GoogleDriveProcessService
 {

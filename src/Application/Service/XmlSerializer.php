@@ -1,10 +1,10 @@
 <?php
 
-namespace Forikal\GsheetXml\Application\Service;
+namespace XmlSquad\GsheetXml\Application\Service;
 
 use DOMDocument;
-use Forikal\GsheetXml\Model\Inventory;
-use Forikal\GsheetXml\Model\StockItem;
+use XmlSquad\GsheetXml\Model\Inventory;
+use XmlSquad\GsheetXml\Model\StockItem;
 
 class XmlSerializer
 {

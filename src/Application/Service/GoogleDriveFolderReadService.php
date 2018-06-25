@@ -1,8 +1,8 @@
 <?php
 
-namespace Forikal\GsheetXml\Application\Service;
+namespace XmlSquad\GsheetXml\Application\Service;
 
-use Forikal\Library\GoogleAPI\GoogleAPIClient;
+use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 

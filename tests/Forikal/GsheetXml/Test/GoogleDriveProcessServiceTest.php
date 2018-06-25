@@ -1,11 +1,11 @@
 <?php
 
-namespace Forikal\GsheetXml\Test;
+namespace XmlSquad\GsheetXml\Test;
 
-use Forikal\GsheetXml\Application\Service\GoogleDriveProcessService;
-use Forikal\GsheetXml\Application\Service\XmlSerializer;
-use Forikal\GsheetXml\Model\InventoryFactory;
-use Forikal\Library\GoogleAPI\GoogleAPIClient;
+use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
+use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 use PHPUnit\Framework\TestCase;
 
 class GoogleDriveProcessServiceTest extends TestCase

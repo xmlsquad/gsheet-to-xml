@@ -2,7 +2,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use Forikal\GsheetXml\Command\GsheetToXmlCommand;
+use XmlSquad\GsheetXml\Command\GsheetToXmlCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();

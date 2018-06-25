@@ -1,12 +1,12 @@
 <?php
 
-namespace Forikal\GsheetXml\Command;
+namespace XmlSquad\GsheetXml\Command;
 
 use Exception;
-use Forikal\GsheetXml\Application\Service\GoogleDriveProcessService;
-use Forikal\GsheetXml\Application\Service\XmlSerializer;
-use Forikal\GsheetXml\Model\InventoryFactory;
-use Forikal\Library\GoogleAPI\GoogleAPIClient;
+use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
+use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 use Google_Service_Drive;
 use Google_Service_Sheets;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ class GsheetToXmlCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('forikal:gsheet-to-xml')
+            ->setName('inventory:gsheet-to-xml')
             ->setDescription('Convert GSheet file to XML')
             ->setHelp('Fetch and convert Google Drive Folder / Sheets to XML.')
             ->addArgument(

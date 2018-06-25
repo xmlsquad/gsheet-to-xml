@@ -7,7 +7,7 @@ __Note__ Make sure you're using at least PHP 7.1
 
 # Google API Setup
 
-See: [How to: Google API Setup](https://github.com/forikal-uk/xml-authoring-library/blob/master/HowTo-GoogleAPISetup.md)
+See: [How to: Google API Setup](https://github.com/xmlsquad/xml-authoring-library/blob/master/HowTo-GoogleAPISetup.md)
 
 
 # Usage

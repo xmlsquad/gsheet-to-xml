@@ -53,16 +53,16 @@
             "time": "2017-06-27T22:17:23+00:00"
         },
         {
-            "name": "forikal-uk/xml-authoring-library",
+            "name": "xmlsquad/xml-authoring-library",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/forikal-uk/xml-authoring-library.git",
+                "url": "https://github.com/xmlsquad/xml-authoring-library.git",
                 "reference": "d9e33aaae40d5e0952eea59e530319827c2649ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/forikal-uk/xml-authoring-library/zipball/d9e33aaae40d5e0952eea59e530319827c2649ad",
+                "url": "https://api.github.com/repos/xmlsquad/xml-authoring-library/zipball/d9e33aaae40d5e0952eea59e530319827c2649ad",
                 "reference": "d9e33aaae40d5e0952eea59e530319827c2649ad",
                 "shasum": ""
             },
@@ -78,13 +78,13 @@
                 "phpunit/phpunit": "^7.1"
             },
             "suggest": {
-                "forikal-uk/xmlauthor-example-command": "To see example how to use AbstractCommand",
+                "xmlsquad/xmlauthor-example-command": "To see example how to use AbstractCommand",
                 "google/apiclient": "To use the Google API helper (version ^2.0 is required)"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Forikal\\Library\\": "src/"
+                    "XmlSquad\\Library\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2535,7 +2535,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "forikal-uk/xml-authoring-library": 20
+        "xmlsquad/xml-authoring-library": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

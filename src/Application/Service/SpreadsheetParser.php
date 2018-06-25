@@ -1,6 +1,6 @@
 <?php
 
-namespace Forikal\GsheetXml\Application\Service;
+namespace XmlSquad\GsheetXml\Application\Service;
 
 class SpreadsheetParser
 {

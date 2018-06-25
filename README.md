@@ -2,11 +2,11 @@
 
 Symfony Console command that, given the URL of a (specifically structured) Google Sheet or Google Drive folder of sheets, outputs the contents (perhaps in multiple tabs) in the form of Xml.
 
-Designed be used in the context of the Symfony Console application at https://github.com/forikal-uk/xml-authoring-tools which, in turn, is used in the context of a known directory structure which is based on [xml-authoring-project](https://github.com/forikal-uk/xml-authoring-project).
+Designed be used in the context of the Symfony Console application at https://github.com/xmlsquad/xml-authoring-tools which, in turn, is used in the context of a known directory structure which is based on [xml-authoring-project](https://github.com/xmlsquad/xml-authoring-project).
 
 # Documentation
 
-See: https://github.com/forikal-uk/gsheet-to-xml/blob/master/DOCUMENTATION.md
+See: https://github.com/xmlsquad/gsheet-to-xml/blob/master/DOCUMENTATION.md
 
 # Original Specification:
 
@@ -16,7 +16,7 @@ I have published
 
 * a [schema defining how the Google Sheets map to Xml](https://docs.google.com/spreadsheets/d/1ooblH26ti5CyEJvJsLygXUJVnBvT1h6DUf67gCkrbZE/edit?usp=sharing).
 * an example [Inventory sheet](https://docs.google.com/spreadsheets/d/1kU_R8RokoMy9qvJqxy72H58cS48EVs0zRJXcgTZ5YFI/edit?usp=sharing).
-* an example [Xml representation of Inventory data](https://github.com/forikal-uk/xml-authoring-project/blob/master/src/Inventory/Inventory.xml).
+* an example [Xml representation of Inventory data](https://github.com/xmlsquad/xml-authoring-project/blob/master/src/Inventory/Inventory.xml).
 * some of the [rules that define the valid structure of an Inventory sheet](https://github.com/john-arcus/GasInventoryValidator/blob/master/features/ValidateUploadedInventoryFiles.feature).
 
 ## Naming convention. 

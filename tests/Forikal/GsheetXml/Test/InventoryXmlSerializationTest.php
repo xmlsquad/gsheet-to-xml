@@ -1,12 +1,12 @@
 <?php
 
-namespace Forikal\GsheetXml\Test;
+namespace XmlSquad\GsheetXml\Test;
 
-use Forikal\GsheetXml\Application\Service\GoogleDriveProcessService;
-use Forikal\GsheetXml\Application\Service\XmlSerializer;
-use Forikal\GsheetXml\Model\Inventory;
-use Forikal\GsheetXml\Model\InventoryFactory;
-use Forikal\GsheetXml\Model\StockItem;
+use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
+use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\Inventory;
+use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\GsheetXml\Model\StockItem;
 use PHPUnit\Framework\TestCase;
 
 class InventoryXmlSerializationTest extends TestCase

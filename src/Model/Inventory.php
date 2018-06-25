@@ -1,6 +1,6 @@
 <?php
 
-namespace Forikal\GsheetXml\Model;
+namespace XmlSquad\GsheetXml\Model;
 
 class Inventory
 {
