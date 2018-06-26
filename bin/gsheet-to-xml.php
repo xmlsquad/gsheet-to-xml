@@ -7,8 +7,8 @@
 //Determine if autoloader can be found.
 $possibleAutoloaderPaths = array(
     __DIR__.'/../../../../vendor/autoload.php', //for when package bin is in vendor directory
-    __DIR__.'/../vendor/autoload.php' //for when standalone bin is in root
-    );
+    __DIR__.'/../vendor/autoload.php', //for when standalone bin is in root
+);
 
 $autoloaderFound = FALSE;
 foreach ($possibleAutoloaderPaths as $autoloaderFile) {
@@ -22,15 +22,29 @@ foreach ($possibleAutoloaderPaths as $autoloaderFile) {
 if ($autoloaderFound){
     require_once $autoloaderFile;
 } else {
-    //tell the user in a friendly way:
-    fwrite(STDERR, 'autoload.php not found.'. PHP_EOL);
-    fwrite(STDERR, 'Searched in:'. PHP_EOL);
+    //Tell the user in a friendly way:
+
+    //Compose the messages.
+    $feedbackLines = array(
+        'The autoload.php was not found.',
+        'The script searched for it at:',
+    );
 
     foreach ($possibleAutoloaderPaths as $autoloaderFile) {
-        fwrite( STDERR, '[' . $autoloaderFile . ']'. PHP_EOL);
+        $feedbackLines[] = '[' . $autoloaderFile . ']';
         }
 
-    fwrite(STDERR, PHP_EOL .'Maybe you forgot to run \'composer install\'?'. PHP_EOL . PHP_EOL);
+    //Extra spaces to highlight the suggestion.
+    $feedbackLines[] =
+        PHP_EOL
+        . 'Maybe you forgot to run \'composer install\'?'
+        . PHP_EOL;
+
+    //Write them out.
+    foreach($feedbackLines as $line){
+        fwrite(STDERR,  $line . PHP_EOL);
+    }
+
 
     //Exit with non-zero (i.e error) code.
     exit(1);
