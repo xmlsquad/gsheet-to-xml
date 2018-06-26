@@ -7,73 +7,42 @@ use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
 use XmlSquad\GsheetXml\Model\InventoryFactory;
-use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
-use Google_Service_Drive;
-use Google_Service_Sheets;
 
 use Symfony\Component\Console\Input\InputInterface;
-
 use Symfony\Component\Console\Output\OutputInterface;
 
+use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
+
+/**
+ * Grabs Inventory GSheet/s and converts it/them To Xml
+ *
+ * The base class contains the infrastructural mechanics
+ * leaving this concrete class responsible for:
+ *  creating the classes that hold the logic relating to the particular domain model which is
+ *  represented by the sheets being collected/ xml being written.
+ *  and, if required, adding any intermediate control steps that might be required
+ *  by the particular use-case.
+ *
+ *
+ * @author Zoran Antolović
+ * @author Johnnie Walker
+ */
 class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
 {
     protected function configure()
     {
         $this
             ->setName('inventory:gsheet-to-xml')
-            ->setDescription('Convert GSheet file to XML')
-            ->setHelp('Fetch and convert Google Drive Folder / Sheets to XML.');
-
-        $this->doConfigureGenericOptions();
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $fullCredentialsPath = $this->findFullCredentialsPath($this->getCredentialsPathOption($input));
-        if (!$fullCredentialsPath) {
-            throw new Exception('Credentials file not found.');
-        }
-
-
-        $googleClient = new GoogleAPIClient();
-        $googleClient->authenticateFromCommand(
-            $input,
-            $output,
-            $fullCredentialsPath,
-            $this->fileOptionToFullPath($this->getAccessTokenFileOption($input)),
-            [Google_Service_Drive::DRIVE_READONLY, Google_Service_Sheets::SPREADSHEETS_READONLY],
-            $this->getForceAuthenticateOption($input)
-        );
-
-        $service = $this->createGoogleDriveProcessService(
-            $googleClient,
-            $this->doCreateDomainGSheetObjectFactory(),
-            $this->doCreateXmlSerializer());
-
-        $output->writeln($service->googleUrlToXml($this->getDriveUrlOption($input), $this->getIsRecursiveOption($input)));
+            ->setDescription('Convert Inventory GSheet file to XML')
+            ->setHelp('Fetch and convert Google Drive Folder / Sheets to XML.')
+            ->configureGenericOptions();
     }
 
     /**
-     * Factory method for GoogleDriveProcessService object.
+     * Creates the class that converts the model to XML.
      *
-     * Could be overridden by concrete class if special processing needed.
-     *
-     * @param GoogleAPIClient $client
-     * @param InventoryFactory $domainGSheetObjectFactory
-     * @param XmlSerializer $xmlSerializer
-     * @return GoogleDriveProcessService
+     * @return XmlSerializer
      */
-    protected function createGoogleDriveProcessService(
-        GoogleAPIClient $client,
-        InventoryFactory $domainGSheetObjectFactory,
-        XmlSerializer $xmlSerializer){
-        
-        return new GoogleDriveProcessService(
-            $client,
-            $domainGSheetObjectFactory,
-            $xmlSerializer);
-    }
-
     protected function doCreateXmlSerializer(){
         return new XmlSerializer();
     }
@@ -86,47 +55,24 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
         return new InventoryFactory();
     }
 
+    /**
+     * Factory method for GoogleDriveProcessService object.
+     *
+     *
+     * @param GoogleAPIClient $client
+     * @param InventoryFactory $domainGSheetObjectFactory
+     * @param XmlSerializer $xmlSerializer
+     * @return GoogleDriveProcessService
+     */
+    protected function createGoogleDriveProcessService(
+        GoogleAPIClient $client,
+        InventoryFactory $domainGSheetObjectFactory,
+        XmlSerializer $xmlSerializer){
 
-
-
-    protected function getDriveUrlOption(InputInterface $input){
-        return $input->getArgument('drive-url');
-    }
-
-    protected function getIsRecursiveOption(InputInterface $input){
-        return $input->getOption('recursive');
-    }
-
-    protected function getForceAuthenticateOption(InputInterface $input){
-        return $input->getOption('force-authenticate');
-    }
-
-    protected function getCredentialsPathOption(InputInterface $input) {
-        return $input->getOption('client-secret-file');
-    }
-
-    protected function getAccessTokenFileOption(InputInterface $input){
-        return $input->getOption('access-token-file');
-    }
-
-    protected function fileOptionToFullPath($relativePath){
-        return getcwd() . '/' . ltrim($relativePath, '/');
-    }
-
-
-    protected function isFullCredentialsPathFindable($fullCredentialsPath){
-        if (false === is_file($fullCredentialsPath)){
-            return FALSE;
-        }
-        return TRUE;
-    }
-
-    protected function findFullCredentialsPath($credentialsPathOption){
-
-        if (!$this->isFullCredentialsPathFindable($this->fileOptionToFullPath($credentialsPathOption))){
-            return NULL;
-        }
-        return $this->fileOptionToFullPath($credentialsPathOption);
+        return new GoogleDriveProcessService(
+            $client,
+            $domainGSheetObjectFactory,
+            $xmlSerializer);
     }
 
 
