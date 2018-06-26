@@ -36,7 +36,7 @@ containing the spreadsheet ID.
 If the package is being edited in standalone context:
 Run `./vendor/bin/phpunit` to execute test suite
 
-If [the package is being edited in context of some other parent project](https://github.com/xmlsquad/gsheet-to-xml/issues/21#issuecomment-400342043) you have to run phpunit from the root directory and point to this package's tests folder:
+If [the package is being edited in context of some other parent project](https://github.com/xmlsquad/gsheet-to-xml/issues/21#issuecomment-400342043) you could run phpunit from the root directory and point to this package's tests folder explicitly:
 ```bash
 $ pwd
 /some/parent/project/root/folder
