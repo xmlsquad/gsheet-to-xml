@@ -32,7 +32,17 @@ through sub-directories to find sheets.
 containing the spreadsheet ID.
 
 # Tests
+
+If the package is being edited in standalone context:
 Run `./vendor/bin/phpunit` to execute test suite
+
+If [the package is being edited in context of some other parent project](https://github.com/xmlsquad/gsheet-to-xml/issues/21#issuecomment-400342043) you have to run phpunit from the root directory and point to this package's tests folder:
+```bash
+$ pwd
+/some/parent/project/root/folder
+$ ./vendor/phpunit/phpunit/phpunit vendor/xmlsquad/gsheet-to-xml/tests/
+```
+
 
 # Resources
 - https://www.fillup.io/post/read-and-write-google-sheets-from-php/
