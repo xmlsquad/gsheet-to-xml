@@ -27,7 +27,7 @@ class GoogleDriveProcessService
         $this->xmlSerializer = $xmlSerializer;
     }
 
-    public function process(string $url, bool $recursive)
+    public function googleUrlToXml(string $url, bool $recursive)
     {
         if ($this->isSpreadsheet($url)) {
             return $this->processSpreadsheet($url);
