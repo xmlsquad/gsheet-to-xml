@@ -12,18 +12,18 @@ class GoogleDriveProcessService
     private $client;
 
     /** @var InventoryFactory */
-    private $inventoryFactory;
+    private $domainGSheetObjectFactory;
 
     /** @var XmlSerializer */
     private $xmlSerializer;
 
     public function __construct(
         GoogleAPIClient $client,
-        InventoryFactory $inventoryFactory,
+        InventoryFactory $domainGSheetObjectFactory,
         XmlSerializer $xmlSerializer
     ) {
         $this->client = $client;
-        $this->inventoryFactory = $inventoryFactory;
+        $this->domainGSheetObjectFactory = $domainGSheetObjectFactory;
         $this->xmlSerializer = $xmlSerializer;
     }
 
@@ -85,12 +85,12 @@ class GoogleDriveProcessService
         $service = new GoogleSpreadsheetReadService($this->client);
         $data = $service->getSpreadsheetData($spreadsheetId);
 
-        $inventories = [];
-        foreach ($data as $inventoryData) {
-            $inventories[] = $this->inventoryFactory->make($inventoryData, $url);
+        $domainGSheetObjects = [];
+        foreach ($data as $domainGSheetObjectData) {
+            $domainGSheetObjects[] = $this->domainGSheetObjectFactory->make($domainGSheetObjectData, $url);
         }
 
-        $xml = $this->xmlSerializer->serializeInventories($inventories);
+        $xml = $this->xmlSerializer->serializeInventories($domainGSheetObjects);
 
         return $xml;
     }
@@ -109,17 +109,17 @@ class GoogleDriveProcessService
          * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.
          */
         $spreadsheetService = new GoogleSpreadsheetReadService($this->client);
-        $inventories = [];
+        $domainGSheetObjects = [];
         foreach ($spreadsheetFileIds as $spreadsheetFileId) {
             $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId);
             $sheetUrl = "https://docs.google.com/spreadsheets/d/{$spreadsheetFileId}/";
 
             foreach ($sheetsData as $sheetData) {
-                $inventories[] = $this->inventoryFactory->make($sheetData, $sheetUrl);
+                $domainGSheetObjects[] = $this->domainGSheetObjectFactory->make($sheetData, $sheetUrl);
             }
         }
 
-        $xml = $this->xmlSerializer->serializeInventories($inventories);
+        $xml = $this->xmlSerializer->serializeInventories($domainGSheetObjects);
 
         return $xml;
     }
