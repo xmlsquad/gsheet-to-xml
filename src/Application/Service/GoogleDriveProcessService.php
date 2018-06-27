@@ -30,11 +30,11 @@ class GoogleDriveProcessService
     public function googleUrlToXml(string $url, bool $recursive)
     {
         if ($this->isSpreadsheet($url)) {
-            return $this->processSpreadsheet($url);
+            return $this->googleSpreadsheetToXml($url);
         }
 
         if ($this->isFolder($url)) {
-            return $this->processFolder($url, $recursive);
+            return $this->googleFolderToXml($url, $recursive);
         }
 
         throw new Exception('URL is not either Google Spreadsheet nor Google Drive Folder');
@@ -75,7 +75,7 @@ class GoogleDriveProcessService
         return false;
     }
 
-    public function processSpreadsheet(string $url): string
+    protected function googleSpreadsheetToXml(string $url): string
     {
         $spreadsheetId = $this->parseSpreadsheetIdFromUrl($url);
         if (true === empty($spreadsheetId)) {
@@ -95,7 +95,7 @@ class GoogleDriveProcessService
         return $xml;
     }
 
-    public function processFolder(string $url, bool $recursive)
+    protected function googleFolderToXml(string $url, bool $recursive)
     {
         $folderId = $this->parseFolderIdFromUrl($url);
         if (true === empty($folderId)) {
