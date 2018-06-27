@@ -8,7 +8,7 @@
 
 namespace XmlSquad\GsheetXml\Command;
 
-
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,6 +25,7 @@ use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
 /**
  * Base class for all GSheetToXml commands.
+ *
  *
  * Contains common logic related to the mechanics of:
  *  defining and getting common options,
@@ -66,16 +67,21 @@ abstract class AbstractGSheetToXmlCommand extends Command
             $this->getForceAuthenticateOption($input)
         );
 
-        $service = $this->createGoogleDriveProcessService(
-            $googleClient,
-            $this->doCreateDomainGSheetObjectFactory(),
-            $this->doCreateXmlSerializer());
-
-        $output->writeln($service->googleUrlToXml($this->getDriveUrlOption($input), $this->getIsRecursiveOption($input)));
+        //Delegate to the concrete class to perform the processing.
+        $this->processDataSource(
+            $output,
+            $this->doCreateGoogleDriveProcessService(
+                $googleClient,
+                $this->doCreateDomainGSheetObjectFactory(),
+                $this->doCreateXmlSerializer()),
+            $this->getDataSourceOptions($input)
+        );
 
         //If all went well.
         return 0;
     }
+
+
 
     /**
      * Configure the options that are common to most GSheetToXml commands.

@@ -2,7 +2,7 @@
 
 namespace XmlSquad\GsheetXml\Command;
 
-use Exception;
+
 use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
@@ -16,8 +16,10 @@ use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 /**
  * Grabs Inventory GSheet/s and converts it/them To Xml
  *
+ *
  * The base class contains the infrastructural mechanics
  * leaving this concrete class responsible for:
+ *  adding extra options
  *  creating the classes that hold the logic relating to the particular domain model which is
  *  represented by the sheets being collected/ xml being written.
  *  and, if required, adding any intermediate control steps that might be required
@@ -39,7 +41,38 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
     }
 
     /**
+     * Invoke the GoogleDriveProcessService to process the data source.
+     *
+     *
+     * @param OutputInterface $output
+     * @param GoogleDriveProcessService $service
+     * @param $dataSourceOptions
+     * @throws \Exception
+     */
+    protected function processDataSource(OutputInterface $output, GoogleDriveProcessService $service, $dataSourceOptions)
+    {
+
+        $output->writeln($service->googleUrlToXml($dataSourceOptions['url'], $dataSourceOptions['recursive']));
+    }
+
+
+    /**
+     * Returns 'url' and 'recursive' and, maybe, custom Datasource options.
+     *
+     * This is where we customise the options that
+     * are injected into the doProcessDataSource method.
+     *
+     *@return array of DataSourceOptions
+     */
+    protected function getDataSourceOptions(InputInterface $input){
+        return array(
+            'url' => $this->getDriveUrlOption($input),
+            'recursive' => $this->getIsRecursiveOption($input));
+    }
+
+    /**
      * Creates the class that converts the model to XML.
+     *
      *
      * @return XmlSerializer
      */
@@ -49,6 +82,8 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
 
     /**
      * Creates the factory which creates the domain object that represents the contents of the kind of Google Sheet that this command processes.
+     *
+     *
      * @return InventoryFactory
      */
     protected function doCreateDomainGSheetObjectFactory(){
@@ -64,7 +99,7 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
      * @param XmlSerializer $xmlSerializer
      * @return GoogleDriveProcessService
      */
-    protected function createGoogleDriveProcessService(
+    protected function doCreateGoogleDriveProcessService(
         GoogleAPIClient $client,
         InventoryFactory $domainGSheetObjectFactory,
         XmlSerializer $xmlSerializer){
@@ -74,7 +109,4 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
             $domainGSheetObjectFactory,
             $xmlSerializer);
     }
-
-
-
 }
