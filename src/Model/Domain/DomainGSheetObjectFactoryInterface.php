@@ -6,7 +6,7 @@
  * Time: 15:23
  */
 
-namespace XmlSquad\GsheetXml\Model;
+namespace XmlSquad\GsheetXml\Model\Domain;
 
 
 interface DomainGSheetObjectFactoryInterface

@@ -6,10 +6,10 @@ namespace XmlSquad\GsheetXml\Command;
 use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
-use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
 
 
-use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 
 
 use Symfony\Component\Console\Input\InputInterface;

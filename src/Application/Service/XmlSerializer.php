@@ -3,8 +3,8 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use DOMDocument;
-use XmlSquad\GsheetXml\Model\Inventory;
-use XmlSquad\GsheetXml\Model\StockItem;
+use XmlSquad\GsheetXml\Model\Domain\Inventory;
+use XmlSquad\GsheetXml\Model\Domain\StockItem;
 
 class XmlSerializer
 {

@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use Exception;
-use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
 class GoogleDriveProcessService

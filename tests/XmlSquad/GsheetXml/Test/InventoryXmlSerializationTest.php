@@ -4,9 +4,9 @@ namespace XmlSquad\GsheetXml\Test;
 
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
-use XmlSquad\GsheetXml\Model\Inventory;
-use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
-use XmlSquad\GsheetXml\Model\StockItem;
+use XmlSquad\GsheetXml\Model\Domain\Inventory;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+use XmlSquad\GsheetXml\Model\Domain\StockItem;
 use PHPUnit\Framework\TestCase;
 
 class InventoryXmlSerializationTest extends TestCase

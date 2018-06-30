@@ -21,7 +21,7 @@ use Google_Service_Sheets;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
-use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 
 
 

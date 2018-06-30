@@ -4,7 +4,7 @@ namespace XmlSquad\GsheetXml\Test;
 
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
-use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 use PHPUnit\Framework\TestCase;
 

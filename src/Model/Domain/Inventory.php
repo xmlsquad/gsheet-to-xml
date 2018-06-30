@@ -1,6 +1,6 @@
 <?php
 
-namespace XmlSquad\GsheetXml\Model;
+namespace XmlSquad\GsheetXml\Model\Domain;
 
 class Inventory
 {

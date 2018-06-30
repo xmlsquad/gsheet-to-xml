@@ -2,9 +2,9 @@
 
 namespace XmlSquad\GsheetXml\Test;
 
-use XmlSquad\GsheetXml\Model\Inventory;
-use XmlSquad\GsheetXml\Model\InventoryFactory;
-use XmlSquad\GsheetXml\Model\StockItem;
+use XmlSquad\GsheetXml\Model\Domain\Inventory;
+use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
+use XmlSquad\GsheetXml\Model\Domain\StockItem;
 use PHPUnit\Framework\TestCase;
 
 class InventoryFactoryTest extends TestCase

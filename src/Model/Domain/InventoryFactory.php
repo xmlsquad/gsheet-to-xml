@@ -1,8 +1,8 @@
 <?php
 
-namespace XmlSquad\GsheetXml\Model;
+namespace XmlSquad\GsheetXml\Model\Domain;
 
-use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 
 class InventoryFactory implements DomainGSheetObjectFactoryInterface
 {
