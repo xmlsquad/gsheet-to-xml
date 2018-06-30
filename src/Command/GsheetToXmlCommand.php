@@ -54,10 +54,14 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
      * @param $dataSourceOptions
      * @throws \Exception
      */
-    protected function processDataSource(OutputInterface $output, GoogleDriveProcessService $service, $dataSourceOptions)
+    protected function processDataSource(OutputInterface $output, $service, $dataSourceOptions)
     {
-
+        $this->typeCheckGoogleDriveProcessService($service);
         $output->writeln($service->googleUrlToXml($dataSourceOptions['url'], $dataSourceOptions['recursive']));
+    }
+
+    protected function typeCheckGoogleDriveProcessService(GoogleDriveProcessService $service){
+        //purely as a typecheck because the abstract processDataSource method's interface is left loose.
     }
 
 

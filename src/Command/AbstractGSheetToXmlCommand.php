@@ -83,6 +83,20 @@ abstract class AbstractGSheetToXmlCommand extends Command
         return 0;
     }
 
+    /**
+     * The concrete method that processes the Google Url.
+     *
+     * The interface has been kept as loose as possible to
+     * allow the user-land developer freedom to inject
+     * their own service class and dataSource options.
+     *
+     * @param OutputInterface $output
+     * @param $service
+     * @param $dataSourceOptions
+     * @return mixed
+     */
+    abstract protected function processDataSource(OutputInterface $output, $service, $dataSourceOptions);
+
 
     /**
      * Configure the options that are common to most GSheetToXml commands.
