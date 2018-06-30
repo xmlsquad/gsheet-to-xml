@@ -19,9 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Google_Service_Drive;
 use Google_Service_Sheets;
 
+use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
+
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
-use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
-use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+
+
 
 
 
@@ -73,10 +75,7 @@ abstract class AbstractGSheetToXmlCommand extends Command
         //Delegate to the concrete class to perform the processing.
         $this->processDataSource(
             $output,
-            $this->createGoogleDriveProcessService(
-                $googleClient,
-                $this->doCreateDomainGSheetObjectFactory(),
-                $this->doCreateXmlSerializer()),
+            $this->createGoogleDriveProcessService($googleClient),
             $this->getDataSourceOptions($input)
         );
 
@@ -144,36 +143,24 @@ abstract class AbstractGSheetToXmlCommand extends Command
     /**
      * Factory method for GoogleDriveProcessService object.
      *
+     * Method could be overriden by concrete class since
+     * GoogleDriveProcessService is invoked in the
+     * base class's custom processDataSource() method.
+     *
      *
      * @param GoogleAPIClient $client
-     * @param DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
-     * @param XmlSerializerInterface $xmlSerializer
      * @return GoogleDriveProcessService
      */
     protected function createGoogleDriveProcessService(
-        GoogleAPIClient $client,
-        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
-        XmlSerializerInterface $xmlSerializer){
+        GoogleAPIClient $client){
 
-        //Delegate to the concrete class for implementation.
-        return $this->doCreateGoogleDriveProcessService(
+        return new GoogleDriveProcessService(
             $client,
-            $domainGSheetObjectFactory,
-            $xmlSerializer);
+            $this->doCreateDomainGSheetObjectFactory(),
+            $this->doCreateXmlSerializer());
     }
 
-    /**
-     *
-     *
-     * @param GoogleAPIClient $client
-     * @param DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
-     * @param XmlSerializerInterface $xmlSerializer
-     * @return mixed
-     */
-    abstract protected function doCreateGoogleDriveProcessService(
-        GoogleAPIClient $client,
-        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
-        XmlSerializerInterface $xmlSerializer);
+
 
     /**
      * Get GApiConnectionOption - [client-secret-file]

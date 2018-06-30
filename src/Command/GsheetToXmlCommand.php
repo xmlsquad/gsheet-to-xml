@@ -4,10 +4,10 @@ namespace XmlSquad\GsheetXml\Command;
 
 
 use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
+
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 
 use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
-use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
 
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
 
@@ -95,23 +95,4 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
         return new InventoryFactory();
     }
 
-    /**
-     * Factory method for GoogleDriveProcessService object.
-     *
-     *
-     * @param GoogleAPIClient $client
-     * @param DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
-     * @param XmlSerializer $xmlSerializer
-     * @return GoogleDriveProcessService
-     */
-    protected function doCreateGoogleDriveProcessService(
-        GoogleAPIClient $client,
-        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
-        XmlSerializerInterface $xmlSerializer){
-
-        return new GoogleDriveProcessService(
-            $client,
-            $domainGSheetObjectFactory,
-            $xmlSerializer);
-    }
 }
