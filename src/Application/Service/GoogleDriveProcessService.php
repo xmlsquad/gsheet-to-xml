@@ -75,11 +75,11 @@ class GoogleDriveProcessService
         return false;
     }
 
-    protected function googleSpreadsheetToXml(string $url): string
+    protected function googleSpreadsheetToXml(string $spreadsheetUrl): string
     {
-        $spreadsheetId = $this->parseSpreadsheetIdFromUrl($url);
+        $spreadsheetId = $this->parseSpreadsheetIdFromUrl($spreadsheetUrl);
         if (true === empty($spreadsheetId)) {
-            throw new Exception('Cant parse spreadsheet ID from the URL ' . $url);
+            throw new Exception('Cant parse spreadsheet ID from the URL [' . $spreadsheetUrl .']');
         }
 
         $service = new GoogleSpreadsheetReadService($this->client);
@@ -87,7 +87,7 @@ class GoogleDriveProcessService
 
         $domainGSheetObjects = [];
         foreach ($data as $domainGSheetObjectData) {
-            $domainGSheetObjects[] = $this->domainGSheetObjectFactory->make($domainGSheetObjectData, $url);
+            $domainGSheetObjects[] = $this->domainGSheetObjectFactory->createDomainGSheetObject($domainGSheetObjectData, $spreadsheetUrl);
         }
 
         $xml = $this->xmlSerializer->serializeInventories($domainGSheetObjects);
@@ -115,7 +115,7 @@ class GoogleDriveProcessService
             $sheetUrl = "https://docs.google.com/spreadsheets/d/{$spreadsheetFileId}/";
 
             foreach ($sheetsData as $sheetData) {
-                $domainGSheetObjects[] = $this->domainGSheetObjectFactory->make($sheetData, $sheetUrl);
+                $domainGSheetObjects[] = $this->domainGSheetObjectFactory->createDomainGSheetObject($sheetData, $sheetUrl);
             }
         }
 

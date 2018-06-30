@@ -38,7 +38,7 @@ class InventoryFactoryTest extends TestCase
             ],
         ];
 
-        $inventory = $factory->make($data, $url);
+        $inventory = $factory->createDomainGSheetObject($data, $url);
         $this->assertCount(2, $inventory->getStockItems());
 
         /** @var StockItem $stockItem1 */

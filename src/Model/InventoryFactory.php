@@ -4,10 +4,33 @@ namespace XmlSquad\GsheetXml\Model;
 
 class InventoryFactory
 {
-    public function make(array $data, string $url): Inventory
+    /**
+     * Creates DomainGSheetObject; The domain object that is represented by a GSheet.
+     *
+     *
+     * @param array $data
+     * @param string $spreadsheetUrl
+     * @return Inventory
+     */
+    public function createDomainGSheetObject(array $data, string $spreadsheetUrl)
     {
+        //Delegate to the concrete class for specific implementation.
+        return $this->doCreateDomainGSheetObject($data, $spreadsheetUrl);
+    }
+
+    /**
+     * Implements the process of making the object that is represented by a GSheet. In this case, an Inventory.
+     *
+     *
+     * @see https://en.wikipedia.org/wiki/Template_method_pattern
+     *
+     * @param array $data
+     * @param string $spreadsheetUrl
+     * @return Inventory
+     */
+    protected function doCreateDomainGSheetObject(array $data, string $spreadsheetUrl): Inventory {
         $inventory = new Inventory();
-        $inventory->setSpreadsheetUrl($url);
+        $inventory->setSpreadsheetUrl($spreadsheetUrl);
         $inventory->setSheetName($data['sheetTitle'] ?? null);
         $inventory->setSpreadsheetName($data['spreadsheetTitle'] ?? null);
 
@@ -16,6 +39,7 @@ class InventoryFactory
 
         return $inventory;
     }
+
 
     private function processStockItems(array $data)
     {
