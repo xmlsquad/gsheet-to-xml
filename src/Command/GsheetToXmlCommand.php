@@ -8,6 +8,10 @@ use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
 use XmlSquad\GsheetXml\Model\InventoryFactory;
 
+
+use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
+
+
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -84,9 +88,9 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
      * Creates the factory which creates the domain object that represents the contents of the kind of Google Sheet that this command processes.
      *
      *
-     * @return InventoryFactory
+     * @return DomainGSheetObjectFactoryInterface
      */
-    protected function doCreateDomainGSheetObjectFactory(){
+    protected function doCreateDomainGSheetObjectFactory():InventoryFactory {
         return new InventoryFactory();
     }
 
@@ -95,13 +99,13 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
      *
      *
      * @param GoogleAPIClient $client
-     * @param InventoryFactory $domainGSheetObjectFactory
+     * @param DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
      * @param XmlSerializer $xmlSerializer
      * @return GoogleDriveProcessService
      */
     protected function doCreateGoogleDriveProcessService(
         GoogleAPIClient $client,
-        InventoryFactory $domainGSheetObjectFactory,
+        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
         XmlSerializer $xmlSerializer){
 
         return new GoogleDriveProcessService(

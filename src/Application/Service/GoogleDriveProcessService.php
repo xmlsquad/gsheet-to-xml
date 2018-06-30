@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use Exception;
-use XmlSquad\GsheetXml\Model\InventoryFactory;
+use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
 class GoogleDriveProcessService
@@ -11,7 +11,7 @@ class GoogleDriveProcessService
     /** @var GoogleAPIClient */
     private $client;
 
-    /** @var InventoryFactory */
+    /** @var DomainGSheetObjectFactoryInterface */
     private $domainGSheetObjectFactory;
 
     /** @var XmlSerializer */
@@ -19,7 +19,7 @@ class GoogleDriveProcessService
 
     public function __construct(
         GoogleAPIClient $client,
-        InventoryFactory $domainGSheetObjectFactory,
+        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
         XmlSerializer $xmlSerializer
     ) {
         $this->client = $client;

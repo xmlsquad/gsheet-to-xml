@@ -2,10 +2,12 @@
 
 namespace XmlSquad\GsheetXml\Model;
 
-class InventoryFactory
+use XmlSquad\GsheetXml\Model\DomainGSheetObjectFactoryInterface;
+
+class InventoryFactory implements DomainGSheetObjectFactoryInterface
 {
     /**
-     * Creates DomainGSheetObject; The domain object that is represented by a GSheet.
+     * Implements the process of making the object that is represented by a GSheet. In this case, an Inventory.
      *
      *
      * @param array $data
@@ -19,7 +21,7 @@ class InventoryFactory
     }
 
     /**
-     * Implements the process of making the object that is represented by a GSheet. In this case, an Inventory.
+     *
      *
      *
      * @see https://en.wikipedia.org/wiki/Template_method_pattern
