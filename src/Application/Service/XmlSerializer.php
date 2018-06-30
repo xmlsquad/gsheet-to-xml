@@ -8,6 +8,26 @@ use XmlSquad\GsheetXml\Model\Domain\StockItem;
 
 class XmlSerializer
 {
+
+
+    public function serializeDomainGSheetObjects(array $inventories)
+    {
+        $dom = new DomDocument("1.0", "UTF-8");
+        $products = $dom->createElement('Products');
+
+        /** @var Inventory $inventory */
+        foreach ($inventories as $inventory) {
+            $product = $dom->createElement('Product');
+            $inventoryXmlElement = $this->buildInventoryElement($dom, $inventory);
+            $product->appendChild($inventoryXmlElement);
+            $products->appendChild($product);
+        }
+
+        $dom->appendChild($products);
+
+        return $this->outputFormattedXml($dom);
+    }
+    
     private function outputFormattedXml(DOMDocument $dom)
     {
         $dom->xmlStandalone = true;
@@ -55,21 +75,4 @@ class XmlSerializer
         return $inventoryXmlElement;
     }
 
-    public function serializeDomainGSheetObjects(array $inventories)
-    {
-        $dom = new DomDocument("1.0", "UTF-8");
-        $products = $dom->createElement('Products');
-
-        /** @var Inventory $inventory */
-        foreach ($inventories as $inventory) {
-            $product = $dom->createElement('Product');
-            $inventoryXmlElement = $this->buildInventoryElement($dom, $inventory);
-            $product->appendChild($inventoryXmlElement);
-            $products->appendChild($product);
-        }
-
-        $dom->appendChild($products);
-
-        return $this->outputFormattedXml($dom);
-    }
 }
