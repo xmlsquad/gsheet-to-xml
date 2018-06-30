@@ -1,14 +1,19 @@
 <?php
 
-namespace XmlSquad\GsheetXml\Application\Service;
+namespace XmlSquad\GsheetXml\Model\Service;
 
 use DOMDocument;
 use XmlSquad\GsheetXml\Model\Domain\Inventory;
 use XmlSquad\GsheetXml\Model\Domain\StockItem;
 
-class XmlSerializer
+use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
+
+class XmlSerializer implements XmlSerializerInterface
 {
 
+    /**
+     * Satisfies interface method.
+     */
 
     public function serializeDomainGSheetObjects(array $inventories)
     {

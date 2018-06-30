@@ -5,12 +5,13 @@ namespace XmlSquad\GsheetXml\Command;
 
 use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
-use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
+
+use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
+
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
 
-
 use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
-
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -106,7 +107,7 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
     protected function doCreateGoogleDriveProcessService(
         GoogleAPIClient $client,
         DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
-        XmlSerializer $xmlSerializer){
+        XmlSerializerInterface $xmlSerializer){
 
         return new GoogleDriveProcessService(
             $client,

@@ -20,7 +20,7 @@ use Google_Service_Drive;
 use Google_Service_Sheets;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
-use XmlSquad\GsheetXml\Application\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
 use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 
 
@@ -147,13 +147,13 @@ abstract class AbstractGSheetToXmlCommand extends Command
      *
      * @param GoogleAPIClient $client
      * @param DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
-     * @param XmlSerializer $xmlSerializer
+     * @param XmlSerializerInterface $xmlSerializer
      * @return GoogleDriveProcessService
      */
     protected function createGoogleDriveProcessService(
         GoogleAPIClient $client,
         DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
-        XmlSerializer $xmlSerializer){
+        XmlSerializerInterface $xmlSerializer){
 
         //Delegate to the concrete class for implementation.
         return $this->doCreateGoogleDriveProcessService(
@@ -167,13 +167,13 @@ abstract class AbstractGSheetToXmlCommand extends Command
      *
      * @param GoogleAPIClient $client
      * @param DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
-     * @param XmlSerializer $xmlSerializer
+     * @param XmlSerializerInterface $xmlSerializer
      * @return mixed
      */
     abstract protected function doCreateGoogleDriveProcessService(
         GoogleAPIClient $client,
         DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
-        XmlSerializer $xmlSerializer);
+        XmlSerializerInterface $xmlSerializer);
 
     /**
      * Get GApiConnectionOption - [client-secret-file]
