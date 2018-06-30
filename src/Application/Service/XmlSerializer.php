@@ -55,7 +55,7 @@ class XmlSerializer
         return $inventoryXmlElement;
     }
 
-    public function serializeInventories(array $inventories)
+    public function serializeDomainGSheetObjects(array $inventories)
     {
         $dom = new DomDocument("1.0", "UTF-8");
         $products = $dom->createElement('Products');

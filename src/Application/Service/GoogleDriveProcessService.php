@@ -90,7 +90,7 @@ class GoogleDriveProcessService
             $domainGSheetObjects[] = $this->domainGSheetObjectFactory->createDomainGSheetObject($domainGSheetObjectData, $spreadsheetUrl);
         }
 
-        $xml = $this->xmlSerializer->serializeInventories($domainGSheetObjects);
+        $xml = $this->xmlSerializer->serializeDomainGSheetObjects($domainGSheetObjects);
 
         return $xml;
     }
@@ -119,7 +119,7 @@ class GoogleDriveProcessService
             }
         }
 
-        $xml = $this->xmlSerializer->serializeInventories($domainGSheetObjects);
+        $xml = $this->xmlSerializer->serializeDomainGSheetObjects($domainGSheetObjects);
 
         return $xml;
     }

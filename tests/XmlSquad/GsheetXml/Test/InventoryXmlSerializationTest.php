@@ -47,7 +47,7 @@ class InventoryXmlSerializationTest extends TestCase
         $inventory->setStockItems($stockItems);
 
         $serializer = new XmlSerializer();
-        $xml = $serializer->serializeInventories([$inventory]);
+        $xml = $serializer->serializeDomainGSheetObjects([$inventory]);
 
         $expectedXml = <<<XML
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
