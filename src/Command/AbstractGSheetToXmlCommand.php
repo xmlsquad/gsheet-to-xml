@@ -24,7 +24,7 @@ use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
 
-
+use XmlSquad\Library\Command\AbstractCommand;
 
 
 
@@ -47,7 +47,7 @@ use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
  * @author Zoran Antolović
  * @author Johnnie Walker
  */
-abstract class AbstractGSheetToXmlCommand extends Command
+abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 {
 
     /**
@@ -59,7 +59,9 @@ abstract class AbstractGSheetToXmlCommand extends Command
     {
         $fullCredentialsPath = $this->findFullCredentialsPath($this->getCredentialsPathOption($input));
         if (!$fullCredentialsPath) {
-            throw new Exception('Credentials file not found.');
+            
+
+            throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->getCredentialsPathOption($input).']');
         }
 
         $googleClient = new GoogleAPIClient();
@@ -108,7 +110,8 @@ abstract class AbstractGSheetToXmlCommand extends Command
     protected function configureGenericOptions()
     {
         $this->doConfigureDataSourceOptions();
-        $this->doConfigureGApiConnectionOptions();
+        $this->doConfigureGApiConnectionOptions()
+                ->doConfigureConfigFilename();
 
         return $this;
     }
@@ -134,6 +137,8 @@ abstract class AbstractGSheetToXmlCommand extends Command
                 InputOption::VALUE_NONE,
                 'If set, you will be asked to authenticate even if an access token exist.'
             );
+
+        return $this;
     }
 
 
@@ -151,6 +156,8 @@ abstract class AbstractGSheetToXmlCommand extends Command
                 InputOption::VALUE_NONE,
                 'if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.'
             );
+
+        return $this;
     }
 
 
