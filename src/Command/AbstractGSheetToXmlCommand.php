@@ -157,6 +157,18 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     }
 
 
+    /**
+     * Get GApiConnectionOption - [client-secret-file]
+     *
+     * @param InputInterface $input
+     * @return mixed
+     */
+    protected function doGetGApiSecretFileOption(InputInterface $input) {
+        return $input->getOption('client-secret-file');
+    }
+
+
+
 
     protected function doConfigureDataSourceOptions()
     {
