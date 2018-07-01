@@ -120,7 +120,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
         $this
             ->doConfigureGApiOAuthSecretFileOption(InputOption::VALUE_REQUIRED)
             ->addOption(
-                'access-token-file',
+                'gApiAccessTokenFile',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'The path to an access token file. The file may not exists. If an access token file is used, the command remembers user credentials and doesn\'t require a Google authentication next time.'
@@ -179,13 +179,13 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 
 
     /**
-     * Get GApiConnectionOption [access-token-file]
+     * Get GApiConnectionOption [gApiAccessTokenFile]
      *
      * @param InputInterface $input
      * @return mixed
      */
     protected function getAccessTokenFileOption(InputInterface $input){
-        return $input->getOption('access-token-file');
+        return $input->getOption('gApiAccessTokenFile');
     }
 
     /**
