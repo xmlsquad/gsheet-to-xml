@@ -56,11 +56,11 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fullCredentialsPath = $this->findFullCredentialsPath($this->getCredentialsPathOption($input));
+        $fullCredentialsPath = $this->findFullCredentialsPath($this->doGetGApiSecretFileOption($input));
         if (!$fullCredentialsPath) {
             
 
-            throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->getCredentialsPathOption($input).']');
+            throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->doGetGApiSecretFileOption($input).']');
         }
 
         $googleClient = new GoogleAPIClient();
@@ -118,12 +118,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     protected function doConfigureGApiConnectionOptions()
     {
         $this
-            ->addOption(
-                'client-secret-file',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'The path to an application client secret file.'
-            )
+            ->doConfigureGApiSecretFileOption(InputOption::VALUE_REQUIRED)
             ->addOption(
                 'access-token-file',
                 null,
@@ -139,6 +134,28 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 
         return $this;
     }
+
+    /**
+     * Configure GApiConnectionOption - [client-secret-file]
+     *
+     * @param int $mode
+     * @param string $description
+     * @return $this
+     */
+    protected function doConfigureGApiSecretFileOption(
+        $mode = InputOption::VALUE_OPTIONAL,
+        $description = 'The path to an application client secret file used for authentication to Google.')
+    {
+        $this
+            ->addOption(
+                'client-secret-file',
+                null,
+                $mode,
+                $description
+            );
+        return $this;
+    }
+
 
 
     protected function doConfigureDataSourceOptions()
@@ -180,15 +197,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 
 
 
-    /**
-     * Get GApiConnectionOption - [client-secret-file]
-     *
-     * @param InputInterface $input
-     * @return mixed
-     */
-    protected function getCredentialsPathOption(InputInterface $input) {
-        return $input->getOption('client-secret-file');
-    }
 
     /**
      * Get GApiConnectionOption [access-token-file]
