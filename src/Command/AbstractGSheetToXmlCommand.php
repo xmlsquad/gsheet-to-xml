@@ -126,7 +126,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
                 'The path to an access token file. The file may not exists. If an access token file is used, the command remembers user credentials and doesn\'t require a Google authentication next time.'
             )
             ->addOption(
-                'force-authenticate',
+                'forceAuthenticate',
                 null,
                 InputOption::VALUE_NONE,
                 'If set, you will be asked to authenticate even if an access token exist.'
@@ -189,13 +189,13 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     }
 
     /**
-     * Get GApiConnectionOption [force-authenticate]
+     * Get GApiConnectionOption [forceAuthenticate]
      *
      * @param InputInterface $input
      * @return mixed
      */
     protected function getForceAuthenticateOption(InputInterface $input){
-        return $input->getOption('force-authenticate');
+        return $input->getOption('forceAuthenticate');
     }
 
     /**
