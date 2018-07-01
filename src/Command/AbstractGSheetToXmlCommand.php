@@ -135,38 +135,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
         return $this;
     }
 
-    /**
-     * Configure GApiConnectionOption - [client-secret-file]
-     *
-     * @param int $mode
-     * @param string $description
-     * @return $this
-     */
-    protected function doConfigureGApiSecretFileOption(
-        $mode = InputOption::VALUE_OPTIONAL,
-        $description = 'The path to an application client secret file used for authentication to Google.')
-    {
-        $this
-            ->addOption(
-                'client-secret-file',
-                null,
-                $mode,
-                $description
-            );
-        return $this;
-    }
-
-
-    /**
-     * Get GApiConnectionOption - [client-secret-file]
-     *
-     * @param InputInterface $input
-     * @return mixed
-     */
-    protected function doGetGApiSecretFileOption(InputInterface $input) {
-        return $input->getOption('client-secret-file');
-    }
-
 
 
 
