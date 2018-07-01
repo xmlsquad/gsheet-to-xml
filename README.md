@@ -35,14 +35,14 @@ If a Google Sheet's tab is named `foo_`, then it is assumed to be 'private' and 
 
 ## Input
 
-- drive-url: The URL of the Google Drive entity (Google Sheet or Google Drive folder).
+- driveUrl: The URL of the Google Drive entity (Google Sheet or Google Drive folder).
 
 - is-recursive: if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.
 
 
 ## Behaviour
 
-If the `drive-url` is a Google Sheet write out the contents as Xml.
+If the `driveUrl` is a Google Sheet write out the contents as Xml.
 If it is a Google Drive find all Google Sheets within the directory (recursively, if specified) and write out the contents as Xml.
 
 ## Output
