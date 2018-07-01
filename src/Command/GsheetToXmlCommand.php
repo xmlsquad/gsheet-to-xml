@@ -75,7 +75,7 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
      */
     protected function getDataSourceOptions(InputInterface $input){
         return array(
-            'url' => $this->getDriveUrlOption($input),
+            'url' => $this->getDriveUrlArgument($input),
             'recursive' => $this->getIsRecursiveOption($input));
     }
 

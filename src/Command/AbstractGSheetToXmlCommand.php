@@ -11,7 +11,6 @@ namespace XmlSquad\GsheetXml\Command;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -145,11 +144,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     protected function doConfigureDataSourceOptions()
     {
         $this
-            ->addArgument(
-                'drive-url',
-                InputArgument::REQUIRED,
-                'The URL of the Google Drive entity (Google Sheet or Google Drive folder). is-recursive: if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.'
-            )
+            ->doConfigureDriveUrlArgument()
             ->addOption(
                 'recursive',
                 'r',
@@ -159,6 +154,8 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 
         return $this;
     }
+
+
 
 
     /**
@@ -223,15 +220,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
         return $input->getOption('recursive');
     }
 
-    /**
-     * Get DataSourceOption [drive-url]
-     *
-     * @param InputInterface $input
-     * @return mixed
-     */
-    protected function getDriveUrlOption(InputInterface $input){
-        return $input->getArgument('drive-url');
-    }
+
 
     /**
      * Finds the full path to the credentials file.
