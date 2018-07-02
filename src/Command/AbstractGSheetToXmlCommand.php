@@ -56,11 +56,11 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fullCredentialsPath = $this->findFullCredentialsPath($this->doGetGApiOAuthSecretFileOption($input));
+        $fullCredentialsPath = $this->findFullCredentialsPath($this->getGApiOAuthSecretFileOption($input));
         if (!$fullCredentialsPath) {
             
 
-            throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->doGetGApiOAuthSecretFileOption($input).']');
+            throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->getGApiOAuthSecretFileOption($input).']');
         }
 
         $googleClient = new GoogleAPIClient();
@@ -118,7 +118,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     protected function doConfigureGApiConnectionOptions()
     {
         $this
-            ->doConfigureGApiOAuthSecretFileOption(InputOption::VALUE_REQUIRED)
+            ->configureGApiOAuthSecretFileOption(InputOption::VALUE_REQUIRED)
             ->addOption(
                 'gApiAccessTokenFile',
                 null,
