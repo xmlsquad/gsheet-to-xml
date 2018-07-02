@@ -56,9 +56,15 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fullCredentialsPath = $this->findFullCredentialsPath($this->getGApiOAuthSecretFileOption($input));
+
+        if ((!$this->findGApiOAuthSecretFileValue($input, $output) || (!$this->findGApiAccessTokenFileValue($input, $output)))) {
+            throw new Exception('Neither credentials command options nor settings not found.');
+            return 1;
+        }
+
+        //$fullCredentialsPath = $this->findFullCredentialsPath($this->getGApiOAuthSecretFileOption($input));
+        $fullCredentialsPath = $this->findGApiOAuthSecretFileValue($input, $output);
         if (!$fullCredentialsPath) {
-            
 
             throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->getGApiOAuthSecretFileOption($input).']');
         }
@@ -68,7 +74,8 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
             $input,
             $output,
             $fullCredentialsPath,
-            $this->fileOptionToFullPath($this->getGApiAccessTokenFileOption($input)),
+            //$this->fileOptionToFullPath($this->getGApiAccessTokenFileOption($input)),
+            $this->findGApiAccessTokenFileValue($input, $output),
             [Google_Service_Drive::DRIVE_READONLY, Google_Service_Sheets::SPREADSHEETS_READONLY],
             $this->getForceAuthenticateOption($input)
         );
@@ -109,8 +116,8 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     protected function configureGenericOptions()
     {
         $this->doConfigureDataSourceOptions();
-        $this->doConfigureGApiConnectionOptions()
-                ->doConfigureConfigFilename();
+        $this->doConfigureGApiConnectionOptions();
+                //->doConfigureConfigFilename(); //@todo This is not being used by the parser, currently.
 
         return $this;
     }
