@@ -120,17 +120,10 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
         $this
             ->configureGApiOAuthSecretFileOption(InputOption::VALUE_REQUIRED)
             ->configureGApiAccessTokenFileOption()
-            ->addOption(
-                'forceAuthenticate',
-                null,
-                InputOption::VALUE_NONE,
-                'If set, you will be asked to authenticate even if an access token exist.'
-            );
+            ->configureForceAuthenticateOption();
 
         return $this;
     }
-
-
 
 
     protected function doConfigureDataSourceOptions()
@@ -171,16 +164,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     }
 
 
-
-    /**
-     * Get GApiConnectionOption [forceAuthenticate]
-     *
-     * @param InputInterface $input
-     * @return mixed
-     */
-    protected function getForceAuthenticateOption(InputInterface $input){
-        return $input->getOption('forceAuthenticate');
-    }
 
     /**
      * Get DataSourceOption [recursive]
