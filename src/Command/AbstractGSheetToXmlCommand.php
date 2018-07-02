@@ -68,7 +68,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
             $input,
             $output,
             $fullCredentialsPath,
-            $this->fileOptionToFullPath($this->getAccessTokenFileOption($input)),
+            $this->fileOptionToFullPath($this->getGApiAccessTokenFileOption($input)),
             [Google_Service_Drive::DRIVE_READONLY, Google_Service_Sheets::SPREADSHEETS_READONLY],
             $this->getForceAuthenticateOption($input)
         );
@@ -119,12 +119,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     {
         $this
             ->configureGApiOAuthSecretFileOption(InputOption::VALUE_REQUIRED)
-            ->addOption(
-                'gApiAccessTokenFile',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'The path to an access token file. The file may not exists. If an access token file is used, the command remembers user credentials and doesn\'t require a Google authentication next time.'
-            )
+            ->configureGApiAccessTokenFileOption()
             ->addOption(
                 'forceAuthenticate',
                 null,
@@ -176,17 +171,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     }
 
 
-
-
-    /**
-     * Get GApiConnectionOption [gApiAccessTokenFile]
-     *
-     * @param InputInterface $input
-     * @return mixed
-     */
-    protected function getAccessTokenFileOption(InputInterface $input){
-        return $input->getOption('gApiAccessTokenFile');
-    }
 
     /**
      * Get GApiConnectionOption [forceAuthenticate]
