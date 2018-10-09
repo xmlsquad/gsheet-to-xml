@@ -13,7 +13,7 @@ class GoogleDriveProcessServiceTest extends TestCase
     public function testUrlRecognition()
     {
         $googleClient = new GoogleAPIClient();
-        $service = new GoogleDriveProcessService($googleClient, new InventoryFactory(), new XmlSerializer());
+        $service = new GoogleDriveProcessService($googleClient, new XmlSerializer());
 
         $spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit';
         $folderUrl = 'https://drive.google.com/drive/folders/xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx';
@@ -28,7 +28,7 @@ class GoogleDriveProcessServiceTest extends TestCase
     public function testFolderUrlParsing()
     {
         $googleClient = new GoogleAPIClient();
-        $service = new GoogleDriveProcessService($googleClient, new InventoryFactory(), new XmlSerializer());
+        $service = new GoogleDriveProcessService($googleClient, new XmlSerializer());
         $folderUrl = 'https://drive.google.com/drive/folders/xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx';
         $folderId = 'xxxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxx';
         $this->assertEquals($folderId, $service->parseFolderIdFromUrl($folderUrl));
@@ -37,7 +37,7 @@ class GoogleDriveProcessServiceTest extends TestCase
     public function testSpreadsheetUrlParsing()
     {
         $googleClient = new GoogleAPIClient();
-        $service = new GoogleDriveProcessService($googleClient, new InventoryFactory(), new XmlSerializer());
+        $service = new GoogleDriveProcessService($googleClient, new XmlSerializer());
         $spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit';
         $spreadsheetId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
         $this->assertEquals($spreadsheetId, $service->parseSpreadsheetIdFromUrl($spreadsheetUrl));

@@ -166,7 +166,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 
         return new GoogleDriveProcessService(
             $client,
-            $this->doCreateDomainGSheetObjectFactory(),
             $this->doCreateXmlSerializer());
     }
 

@@ -3,6 +3,7 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 use Google_Service_Sheets;
 use Google_Service_Sheets_Sheet;
 
@@ -16,7 +17,7 @@ class GoogleSpreadsheetReadService
         $this->client = $client;
     }
 
-    public function getSpreadsheetData($spreadsheetId, $headingValues)
+    public function getSpreadsheetData($spreadsheetId, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory)
     {
         $service = $this->client->sheetsService;
         $spreadsheet = $service->spreadsheets->get($spreadsheetId);
@@ -43,7 +44,7 @@ class GoogleSpreadsheetReadService
                 'spreadsheetTitle' => $spreadsheetTitle,
                 'values'           => $this->parseSheet(
                     $service,
-                    $headingValues,
+                    $domainGSheetObjectFactory,
                     $spreadsheetId,
                     $sheet
                 ),
@@ -57,7 +58,7 @@ class GoogleSpreadsheetReadService
 
     private function parseSheet(
         Google_Service_Sheets $service,
-        array $headingValues,
+        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
         string $spreadsheetId,
         Google_Service_Sheets_Sheet $sheet
     ): ?array {
@@ -77,7 +78,7 @@ class GoogleSpreadsheetReadService
 
         $values = null;
         if (true === isset($data['values']) && false === empty($data['values'])) {
-            $values = $this->combineSheetDataWithHeadings($data['values'], $headingValues);
+            $values = $this->combineSheetDataWithHeadings($data['values'], $domainGSheetObjectFactory);
         }
 
         return $values;
@@ -86,7 +87,7 @@ class GoogleSpreadsheetReadService
     /**
      * Transform the data so that output array has $heading => $value format
      */
-    private function combineSheetDataWithHeadings(array $data, $headingValues): array
+    private function combineSheetDataWithHeadings(array $data, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory): array
     {
         $headings = null;
         $outputData = [];
@@ -97,11 +98,11 @@ class GoogleSpreadsheetReadService
             }
 
             // Skip non-headings rows until we find headings
-            if (true === empty($headings) && false === $this->isHeadingsRow($row, $headingValues)) {
+            if (true === empty($headings) && false === $this->isHeadingsRow($row, $domainGSheetObjectFactory)) {
                 continue;
             }
 
-            if (true === empty($headings) && true === $this->isHeadingsRow($row, $headingValues)) {
+            if (true === empty($headings) && true === $this->isHeadingsRow($row, $domainGSheetObjectFactory)) {
                 $headings = $row;
                 continue;
             }
@@ -133,7 +134,7 @@ class GoogleSpreadsheetReadService
         return false;
     }
 
-    private function isHeadingsRow(?array $row, $headingValues): bool
+    private function isHeadingsRow(?array $row, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory): bool
     {
         if (true === empty($row)) {
             return false;
@@ -146,7 +147,7 @@ class GoogleSpreadsheetReadService
 
 
 
-        if (true === in_array(trim($firstCellValue), $headingValues)) {
+        if (true === in_array(trim($firstCellValue), $domainGSheetObjectFactory->headingValues)) {
             return true;
         }
 

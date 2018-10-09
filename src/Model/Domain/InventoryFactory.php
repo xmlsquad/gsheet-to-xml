@@ -6,6 +6,20 @@ use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 
 class InventoryFactory implements DomainGSheetObjectFactoryInterface
 {
+
+    /**
+     * @var array The headers that we care about in the target sheets.
+     */
+    public $headingValues = [
+        'Name',
+        'KNumberExists',
+        'KNumber',
+        'Quantity',
+        'AlternativeNumber',
+        'Purpose',
+        'PurposeOther',
+        ];
+
     /**
      * Implements the process of making the object that is represented by a GSheet. In this case, an Inventory.
      *
