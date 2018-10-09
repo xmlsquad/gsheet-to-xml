@@ -145,11 +145,10 @@ class GoogleSpreadsheetReadService
             return false;
         }
 
-
-
-        if (true === in_array(trim($firstCellValue), $domainGSheetObjectFactory->headingValues)) {
+        if ($domainGSheetObjectFactory->isTargettedHeadingValue($firstCellValue)){
             return true;
         }
+
 
         return false;
     }

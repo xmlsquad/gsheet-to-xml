@@ -10,7 +10,7 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
     /**
      * @var array The headers that we care about in the target sheets.
      */
-    public $headingValues = [
+    protected $targettedHeadingValues = [
         'Name',
         'KNumberExists',
         'KNumber',
@@ -33,6 +33,24 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
         //Delegate to the concrete class for specific implementation.
         return $this->doCreateDomainGSheetObject($data, $spreadsheetUrl);
     }
+
+    /**
+     * Returns true if string provided matches one of the header values of the Google Sheet that we are interested in.
+     *
+     * @param string $value
+     * @return bool
+     */
+    public function isTargettedHeadingValue(string $value){
+
+
+        if (true === in_array(trim($value), $this->targettedHeadingValues)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 
     /**
      *
