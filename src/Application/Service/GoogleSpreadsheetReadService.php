@@ -69,7 +69,7 @@ class GoogleSpreadsheetReadService
          * @see https://developers.google.com/sheets/api/guides/concepts
          */
         $title = $sheet->getProperties()->getTitle();
-        $range = "'$title'!A1:H";
+        $range = "'$title'!A1:" . $domainGSheetObjectFactory->getColumnRangeLimit();
         $data = $service->spreadsheets_values->get(
             $spreadsheetId,
             $range,
@@ -80,6 +80,8 @@ class GoogleSpreadsheetReadService
         if (true === isset($data['values']) && false === empty($data['values'])) {
             $values = $this->combineSheetDataWithHeadings($data['values'], $domainGSheetObjectFactory);
         }
+
+        //print_r($values);
 
         return $values;
     }
@@ -98,11 +100,11 @@ class GoogleSpreadsheetReadService
             }
 
             // Skip non-headings rows until we find headings
-            if (true === empty($headings) && false === $this->isHeadingsRow($row, $domainGSheetObjectFactory)) {
+            if (true === empty($headings) && false === $domainGSheetObjectFactory->isHeadingsRow($row)) {
                 continue;
             }
 
-            if (true === empty($headings) && true === $this->isHeadingsRow($row, $domainGSheetObjectFactory)) {
+            if (true === empty($headings) && true === $domainGSheetObjectFactory->isHeadingsRow($row)) {
                 $headings = $row;
                 continue;
             }
@@ -134,22 +136,4 @@ class GoogleSpreadsheetReadService
         return false;
     }
 
-    private function isHeadingsRow(?array $row, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory): bool
-    {
-        if (true === empty($row)) {
-            return false;
-        }
-
-        $firstCellValue = $row[0] ?? null;
-        if (true === empty($firstCellValue)) {
-            return false;
-        }
-
-        if ($domainGSheetObjectFactory->isTargettedHeadingValue($firstCellValue)){
-            return true;
-        }
-
-
-        return false;
-    }
 }

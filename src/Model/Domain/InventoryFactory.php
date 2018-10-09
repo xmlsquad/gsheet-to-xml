@@ -35,6 +35,42 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
     }
 
     /**
+     * @return string Column identity of maximum range to get from sheet.
+     */
+    public function getColumnRangeLimit(){
+        return 'ZZ';
+    }
+
+
+    /**
+     * @param array|null $row
+     * @param \XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
+     * @return bool
+     */
+    public function isHeadingsRow(?array $row): bool
+    {
+        return $this->isAllHeadingValuesPresentInRow($row);
+    }
+
+    protected function isAllHeadingValuesPresentInRow(?array $row){
+
+        if (true === empty($row)) {
+            return false;
+        }
+
+        foreach($this->targettedHeadingValues as $headerValue){
+
+            if (false === in_array(trim($headerValue), $row)) {
+                //print($headerValue . ' not in ' . print_r($row,true));
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if string provided matches one of the header values of the Google Sheet that we are interested in.
      *
      * @param string $value
