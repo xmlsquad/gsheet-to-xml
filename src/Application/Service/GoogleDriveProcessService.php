@@ -30,14 +30,14 @@ class GoogleDriveProcessService
         $this->xmlSerializer = $xmlSerializer;
     }
 
-    public function googleUrlToXml(string $url, bool $recursive)
+    public function googleUrlToXml(string $url, bool $recursive, $headingValues)
     {
         if ($this->isSpreadsheet($url)) {
-            return $this->googleSpreadsheetToXml($url);
+            return $this->googleSpreadsheetToXml($url, $headingValues);
         }
 
         if ($this->isFolder($url)) {
-            return $this->googleFolderToXml($url, $recursive);
+            return $this->googleFolderToXml($url, $recursive, $headingValues);
         }
 
         throw new Exception('URL is not either Google Spreadsheet nor Google Drive Folder');
@@ -78,7 +78,7 @@ class GoogleDriveProcessService
         return false;
     }
 
-    protected function googleSpreadsheetToXml(string $spreadsheetUrl): string
+    protected function googleSpreadsheetToXml(string $spreadsheetUrl, $headingValues): string
     {
         $spreadsheetId = $this->parseSpreadsheetIdFromUrl($spreadsheetUrl);
         if (true === empty($spreadsheetId)) {
@@ -86,7 +86,7 @@ class GoogleDriveProcessService
         }
 
         $service = new GoogleSpreadsheetReadService($this->client);
-        $data = $service->getSpreadsheetData($spreadsheetId);
+        $data = $service->getSpreadsheetData($spreadsheetId, $headingValues);
 
         $domainGSheetObjects = [];
         foreach ($data as $domainGSheetObjectData) {
@@ -98,7 +98,7 @@ class GoogleDriveProcessService
         return $xml;
     }
 
-    protected function googleFolderToXml(string $url, bool $recursive)
+    protected function googleFolderToXml(string $url, bool $recursive, $headingValues)
     {
         $folderId = $this->parseFolderIdFromUrl($url);
         if (true === empty($folderId)) {
@@ -114,7 +114,7 @@ class GoogleDriveProcessService
         $spreadsheetService = new GoogleSpreadsheetReadService($this->client);
         $domainGSheetObjects = [];
         foreach ($spreadsheetFileIds as $spreadsheetFileId) {
-            $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId);
+            $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId, $headingValues);
             $sheetUrl = "https://docs.google.com/spreadsheets/d/{$spreadsheetFileId}/";
 
             foreach ($sheetsData as $sheetData) {

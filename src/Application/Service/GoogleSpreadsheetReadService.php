@@ -16,7 +16,7 @@ class GoogleSpreadsheetReadService
         $this->client = $client;
     }
 
-    public function getSpreadsheetData($spreadsheetId)
+    public function getSpreadsheetData($spreadsheetId, $headingValues)
     {
         $service = $this->client->sheetsService;
         $spreadsheet = $service->spreadsheets->get($spreadsheetId);
@@ -43,6 +43,7 @@ class GoogleSpreadsheetReadService
                 'spreadsheetTitle' => $spreadsheetTitle,
                 'values'           => $this->parseSheet(
                     $service,
+                    $headingValues,
                     $spreadsheetId,
                     $sheet
                 ),
@@ -56,6 +57,7 @@ class GoogleSpreadsheetReadService
 
     private function parseSheet(
         Google_Service_Sheets $service,
+        array $headingValues,
         string $spreadsheetId,
         Google_Service_Sheets_Sheet $sheet
     ): ?array {
@@ -75,7 +77,7 @@ class GoogleSpreadsheetReadService
 
         $values = null;
         if (true === isset($data['values']) && false === empty($data['values'])) {
-            $values = $this->combineSheetDataWithHeadings($data['values']);
+            $values = $this->combineSheetDataWithHeadings($data['values'], $headingValues);
         }
 
         return $values;
@@ -84,7 +86,7 @@ class GoogleSpreadsheetReadService
     /**
      * Transform the data so that output array has $heading => $value format
      */
-    private function combineSheetDataWithHeadings(array $data): array
+    private function combineSheetDataWithHeadings(array $data, $headingValues): array
     {
         $headings = null;
         $outputData = [];
@@ -95,11 +97,11 @@ class GoogleSpreadsheetReadService
             }
 
             // Skip non-headings rows until we find headings
-            if (true === empty($headings) && false === $this->isHeadingsRow($row)) {
+            if (true === empty($headings) && false === $this->isHeadingsRow($row, $headingValues)) {
                 continue;
             }
 
-            if (true === empty($headings) && true === $this->isHeadingsRow($row)) {
+            if (true === empty($headings) && true === $this->isHeadingsRow($row, $headingValues)) {
                 $headings = $row;
                 continue;
             }
@@ -131,7 +133,7 @@ class GoogleSpreadsheetReadService
         return false;
     }
 
-    private function isHeadingsRow(?array $row): bool
+    private function isHeadingsRow(?array $row, $headingValues): bool
     {
         if (true === empty($row)) {
             return false;
@@ -142,15 +144,7 @@ class GoogleSpreadsheetReadService
             return false;
         }
 
-        $headingValues = [
-            'Name',
-            'KNumberExists',
-            'KNumber',
-            'Quantity',
-            'AlternativeNumber',
-            'Purpose',
-            'PurposeOther',
-        ];
+
 
         if (true === in_array(trim($firstCellValue), $headingValues)) {
             return true;

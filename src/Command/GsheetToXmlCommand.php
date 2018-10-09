@@ -57,7 +57,7 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
     protected function processDataSource(OutputInterface $output, $service, $dataSourceOptions)
     {
         $this->typeCheckGoogleDriveProcessService($service);
-        $output->writeln($service->googleUrlToXml($dataSourceOptions['url'], $dataSourceOptions['recursive']));
+        $output->writeln($service->googleUrlToXml($dataSourceOptions['url'], $dataSourceOptions['recursive'], $dataSourceOptions['headingValues']));
     }
 
     protected function typeCheckGoogleDriveProcessService(GoogleDriveProcessService $service){
@@ -76,7 +76,16 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
     protected function getDataSourceOptions(InputInterface $input){
         return array(
             'url' => $this->getDriveUrlArgument($input),
-            'recursive' => $this->getIsRecursiveOption($input));
+            'recursive' => $this->getIsRecursiveOption($input),
+            'headingValues' => [
+                'Name',
+                'KNumberExists',
+                'KNumber',
+                'Quantity',
+                'AlternativeNumber',
+                'Purpose',
+                'PurposeOther',
+                ]);
     }
 
     /**
