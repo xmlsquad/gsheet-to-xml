@@ -84,7 +84,7 @@ class GoogleDriveProcessService
         }
 
         $service = new GoogleSpreadsheetReadService($this->client);
-        $data = $service->getSpreadsheetData($spreadsheetId, $domainGSheetObjectFactory);
+        $data = $service->getSpreadsheetData($spreadsheetId, $domainGSheetObjectFactory->createGSuiteHandlingSpecifications());
 
         $domainGSheetObjects = [];
         foreach ($data as $domainGSheetObjectData) {
@@ -104,7 +104,7 @@ class GoogleDriveProcessService
         }
 
         $driveService = new GoogleDriveFolderReadService($this->client);
-        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive, $domainGSheetObjectFactory);
+        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive, $domainGSheetObjectFactory->createGSuiteHandlingSpecifications());
 
         /**
          * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.
@@ -112,7 +112,7 @@ class GoogleDriveProcessService
         $spreadsheetService = new GoogleSpreadsheetReadService($this->client);
         $domainGSheetObjects = [];
         foreach ($spreadsheetFileIds as $spreadsheetFileId) {
-            $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId, $domainGSheetObjectFactory);
+            $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId, $domainGSheetObjectFactory->createGSuiteHandlingSpecifications());
             $sheetUrl = "https://docs.google.com/spreadsheets/d/{$spreadsheetFileId}/";
 
             foreach ($sheetsData as $sheetData) {
