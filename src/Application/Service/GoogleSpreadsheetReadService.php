@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
-use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+use XmlSquad\Library\GoogleAPI\GSuiteHandlingSpecificationsInterface;
 use Google_Service_Sheets;
 use Google_Service_Sheets_Sheet;
 
@@ -17,7 +17,7 @@ class GoogleSpreadsheetReadService
         $this->client = $client;
     }
 
-    public function getSpreadsheetData($spreadsheetId, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory)
+    public function getSpreadsheetData($spreadsheetId, GSuiteHandlingSpecificationsInterface $gSuiteHandlingSpecifications)
     {
         $service = $this->client->sheetsService;
         $spreadsheet = $service->spreadsheets->get($spreadsheetId);
@@ -34,7 +34,7 @@ class GoogleSpreadsheetReadService
              *  should be explicitly ignored, but it should be noted (in any feedback) that it was ignored.
              */
 
-            if ($domainGSheetObjectFactory->isGSheetTabNameIgnored($sheet->getProperties()->getTitle())) {
+            if ($gSuiteHandlingSpecifications->isGSheetTabNameIgnored($sheet->getProperties()->getTitle())) {
                 // @todo feedback that this sheet/tab was ignored?
                 continue;
             }
@@ -44,7 +44,7 @@ class GoogleSpreadsheetReadService
                 'spreadsheetTitle' => $spreadsheetTitle,
                 'values'           => $this->parseSheet(
                     $service,
-                    $domainGSheetObjectFactory,
+                    $gSuiteHandlingSpecifications,
                     $spreadsheetId,
                     $sheet
                 ),
@@ -58,7 +58,7 @@ class GoogleSpreadsheetReadService
 
     private function parseSheet(
         Google_Service_Sheets $service,
-        DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory,
+        GSuiteHandlingSpecificationsInterface $gSuiteHandlingSpecifications,
         string $spreadsheetId,
         Google_Service_Sheets_Sheet $sheet
     ): ?array {
@@ -69,7 +69,7 @@ class GoogleSpreadsheetReadService
          * @see https://developers.google.com/sheets/api/guides/concepts
          */
         $title = $sheet->getProperties()->getTitle();
-        $range = "'$title'!A1:" . $domainGSheetObjectFactory->getColumnRangeLimit();
+        $range = "'$title'!A1:" . $gSuiteHandlingSpecifications->getColumnRangeLimit();
         $data = $service->spreadsheets_values->get(
             $spreadsheetId,
             $range,
@@ -78,7 +78,7 @@ class GoogleSpreadsheetReadService
 
         $values = null;
         if (true === isset($data['values']) && false === empty($data['values'])) {
-            $values = $this->combineSheetDataWithHeadings($data['values'], $domainGSheetObjectFactory);
+            $values = $this->combineSheetDataWithHeadings($data['values'], $gSuiteHandlingSpecifications);
         }
 
         //print_r($values);
@@ -89,7 +89,7 @@ class GoogleSpreadsheetReadService
     /**
      * Transform the data so that output array has $heading => $value format
      */
-    private function combineSheetDataWithHeadings(array $data, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory): array
+    private function combineSheetDataWithHeadings(array $data, GSuiteHandlingSpecificationsInterface $gSuiteHandlingSpecifications): array
     {
         $headings = null;
         $outputData = [];
@@ -100,11 +100,11 @@ class GoogleSpreadsheetReadService
             }
 
             // Skip non-headings rows until we find headings
-            if (true === empty($headings) && false === $domainGSheetObjectFactory->isHeadingsRow($row)) {
+            if (true === empty($headings) && false === $gSuiteHandlingSpecifications->isHeadingsRow($row)) {
                 continue;
             }
 
-            if (true === empty($headings) && true === $domainGSheetObjectFactory->isHeadingsRow($row)) {
+            if (true === empty($headings) && true === $gSuiteHandlingSpecifications->isHeadingsRow($row)) {
                 $headings = $row;
                 continue;
             }

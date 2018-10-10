@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
-use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+use XmlSquad\Library\GoogleAPI\GSuiteHandlingSpecificationsInterface;
 use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 
@@ -20,7 +20,7 @@ class GoogleDriveFolderReadService
         $this->client = $client;
     }
 
-    public function listSpreaadsheetsInFolder($folderId, bool $recursive, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory)
+    public function listSpreaadsheetsInFolder($folderId, bool $recursive, GSuiteHandlingSpecificationsInterface $gSuiteHandlingSpecifications)
     {
         /** @var Google_Service_Drive $service */
         $service = $this->client->driveService;
@@ -47,7 +47,7 @@ class GoogleDriveFolderReadService
         foreach ($files as $childrenFile) {
 
             if (self::FOLDER_MIME_TYPE === $childrenFile->getMimeType() && true === $recursive) {
-                $subfolderSpreadsheets = $this->listSpreaadsheetsInFolder($childrenFile->getId(), true, $domainGSheetObjectFactory);
+                $subfolderSpreadsheets = $this->listSpreaadsheetsInFolder($childrenFile->getId(), true, $gSuiteHandlingSpecifications);
                 $fileIds = array_merge($fileIds, $subfolderSpreadsheets);
                 continue;
             }
@@ -60,7 +60,7 @@ class GoogleDriveFolderReadService
              * If a file is called, say, foo_, then it is assumed to be 'private' and should be explicitly ignored,
              * but it should be noted (in any feedback) that it was ignored
              */
-            if ($domainGSheetObjectFactory->isGSheetFileNameIgnored($childrenFile->getName())){
+            if ($gSuiteHandlingSpecifications->isGSheetFileNameIgnored($childrenFile->getName())){
                 // @todo feedback that this file was ignored?
                 continue;
             }

@@ -3,8 +3,9 @@
 namespace XmlSquad\GsheetXml\Model\Domain;
 
 use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+use XmlSquad\Library\GoogleAPI\GSuiteHandlingSpecificationsInterface;
 
-class InventoryFactory implements DomainGSheetObjectFactoryInterface
+class InventoryFactory implements DomainGSheetObjectFactoryInterface, GSuiteHandlingSpecificationsInterface
 {
 
     /**
@@ -36,16 +37,20 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
 
     /**
      * Range limit when getting data from spreadsheet.
+     *
+     * Implements GSuiteHandlingSpecificationsInterface
      * 
      * @return string Column identity of maximum range to get from sheet.
      */
-    public function getColumnRangeLimit(){
+    public function getColumnRangeLimit(): string
+    {
         return 'ZZ';
     }
 
     /**
      * If a file is called foo_, then it is assumed to be 'private' and should be explicitly ignored,
      *
+     * Implements GSuiteHandlingSpecificationsInterface
      *
      * Test if full file name ends with _ or only filename without the extension
      * i.e. foo_.xlsx and foo__
@@ -53,7 +58,8 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
      * @param $fullName of Google Sheet
      * @return bool
      */
-    public function isGSheetFileNameIgnored($fullName){
+    public function isGSheetFileNameIgnored($fullName): bool
+    {
 
         $nameWithoutExtension = explode('.', $fullName)[0];
 
@@ -71,10 +77,13 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
     /**
      *  If a Google Sheet's tab is named foo_, then it is assumed to be 'private'.
      *
+     *  Implements GSuiteHandlingSpecificationsInterface
+     *
      * @param $title
      * @return bool
      */
-    public function isGSheetTabNameIgnored($title){
+    public function isGSheetTabNameIgnored($title): bool
+    {
         if ('_' === substr($title, -1)) {
             // @todo feedback that this sheet/tab was ignored?
             return true;
@@ -83,6 +92,11 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
     }
 
     /**
+     * Given a row of values, determines if it looks like a header row
+     *
+     * Implements GSuiteHandlingSpecificationsInterface
+     *
+     *
      * @param array|null $row
      * @param \XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory
      * @return bool
@@ -110,22 +124,6 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
         return true;
     }
 
-    /**
-     * Returns true if string provided matches one of the header values of the Google Sheet that we are interested in.
-     *
-     * @param string $value
-     * @return bool
-     */
-    public function isTargettedHeadingValue(string $value){
-
-
-        if (true === in_array(trim($value), $this->targettedHeadingValues)) {
-            return true;
-        }
-
-        return false;
-
-    }
 
 
     /**
