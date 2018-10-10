@@ -35,12 +35,52 @@ class InventoryFactory implements DomainGSheetObjectFactoryInterface
     }
 
     /**
+     * Range limit when getting data from spreadsheet.
+     * 
      * @return string Column identity of maximum range to get from sheet.
      */
     public function getColumnRangeLimit(){
         return 'ZZ';
     }
 
+    /**
+     * If a file is called foo_, then it is assumed to be 'private' and should be explicitly ignored,
+     *
+     *
+     * Test if full file name ends with _ or only filename without the extension
+     * i.e. foo_.xlsx and foo__
+     *
+     * @param $fullName of Google Sheet
+     * @return bool
+     */
+    public function isGSheetFileNameIgnored($fullName){
+
+        $nameWithoutExtension = explode('.', $fullName)[0];
+
+        if (
+            '_' === substr($fullName, -1) ||
+            '_' === substr($nameWithoutExtension, -1)
+        ) {
+            // @todo feedback that this file was ignored?
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *  If a Google Sheet's tab is named foo_, then it is assumed to be 'private'.
+     *
+     * @param $title
+     * @return bool
+     */
+    public function isGSheetTabNameIgnored($title){
+        if ('_' === substr($title, -1)) {
+            // @todo feedback that this sheet/tab was ignored?
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param array|null $row

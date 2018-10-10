@@ -28,13 +28,13 @@ class GoogleSpreadsheetReadService
 
         /** @var Google_Service_Sheets_Sheet $sheet */
         foreach ($sheets as $sheet) {
-            $title = $sheet->getProperties()->getTitle();
 
             /**
              *  If a Google Sheet's tab is named foo_, then it is assumed to be 'private' and
              *  should be explicitly ignored, but it should be noted (in any feedback) that it was ignored.
              */
-            if ('_' === substr($title, -1)) {
+
+            if ($domainGSheetObjectFactory->isGSheetTabNameIgnored($sheet->getProperties()->getTitle())) {
                 // @todo feedback that this sheet/tab was ignored?
                 continue;
             }

@@ -104,7 +104,7 @@ class GoogleDriveProcessService
         }
 
         $driveService = new GoogleDriveFolderReadService($this->client);
-        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive);
+        $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive, $domainGSheetObjectFactory);
 
         /**
          * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.

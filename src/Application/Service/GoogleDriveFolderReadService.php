@@ -3,6 +3,7 @@
 namespace XmlSquad\GsheetXml\Application\Service;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
+use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
 use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 
@@ -19,7 +20,7 @@ class GoogleDriveFolderReadService
         $this->client = $client;
     }
 
-    public function listSpreaadsheetsInFolder($folderId, bool $recursive)
+    public function listSpreaadsheetsInFolder($folderId, bool $recursive, DomainGSheetObjectFactoryInterface $domainGSheetObjectFactory)
     {
         /** @var Google_Service_Drive $service */
         $service = $this->client->driveService;
@@ -46,7 +47,7 @@ class GoogleDriveFolderReadService
         foreach ($files as $childrenFile) {
 
             if (self::FOLDER_MIME_TYPE === $childrenFile->getMimeType() && true === $recursive) {
-                $subfolderSpreadsheets = $this->listSpreaadsheetsInFolder($childrenFile->getId(), true);
+                $subfolderSpreadsheets = $this->listSpreaadsheetsInFolder($childrenFile->getId(), true, $domainGSheetObjectFactory);
                 $fileIds = array_merge($fileIds, $subfolderSpreadsheets);
                 continue;
             }
@@ -56,21 +57,14 @@ class GoogleDriveFolderReadService
             }
 
             /**
-             * If a file is called foo_, then it is assumed to be 'private' and should be explicitly ignored,
+             * If a file is called, say, foo_, then it is assumed to be 'private' and should be explicitly ignored,
              * but it should be noted (in any feedback) that it was ignored
-             *
-             * Test if full file name ends with _ or only filename without the extension
-             * i.e. foo_.xlsx and foo__
              */
-            $fullName = $childrenFile->getName();
-            $nameWithoutExtension = explode('.', $fullName)[0];
-            if (
-                '_' === substr($fullName, -1) ||
-                '_' === substr($nameWithoutExtension, -1)
-            ) {
+            if ($domainGSheetObjectFactory->isGSheetFileNameIgnored($childrenFile->getName())){
                 // @todo feedback that this file was ignored?
                 continue;
             }
+
 
             $fileIds[] = $childrenFile->getId();
         }
