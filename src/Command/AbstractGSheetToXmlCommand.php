@@ -133,19 +133,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     }
 
 
-    protected function doConfigureDataSourceOptions()
-    {
-        $this
-            ->doConfigureDriveUrlArgument()
-            ->addOption(
-                'recursive',
-                'r',
-                InputOption::VALUE_NONE,
-                'if the Google Drive entity is a Google Drive folder, this option specifies whether or not to recurse through sub-directories to find sheets.'
-            );
-
-        return $this;
-    }
 
 
 
@@ -171,15 +158,6 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
 
 
 
-    /**
-     * Get DataSourceOption [recursive]
-     *
-     * @param InputInterface $input
-     * @return mixed
-     */
-    protected function getIsRecursiveOption(InputInterface $input){
-        return $input->getOption('recursive');
-    }
 
 
 
