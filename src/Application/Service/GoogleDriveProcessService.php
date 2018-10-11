@@ -12,7 +12,7 @@ use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
 class GoogleDriveProcessService
 {
     /** @var GoogleAPIClient */
-    private $client;
+    private $googleAPIClient;
 
     /** @var DomainGSheetObjectFactoryInterface */
     private $domainGSheetObjectFactory;
@@ -21,10 +21,10 @@ class GoogleDriveProcessService
     private $xmlSerializer;
 
     public function __construct(
-        GoogleAPIClient $client,
+        GoogleAPIClient $googleAPIClient,
         XmlSerializerInterface $xmlSerializer
     ) {
-        $this->client = $client;
+        $this->googleAPIClient = $googleAPIClient;
         $this->xmlSerializer = $xmlSerializer;
     }
 
@@ -83,7 +83,7 @@ class GoogleDriveProcessService
             throw new Exception('Cant parse spreadsheet ID from the URL [' . $spreadsheetUrl .']');
         }
 
-        $service = new GoogleSpreadsheetReadService($this->client);
+        $service = new GoogleSpreadsheetReadService($this->googleAPIClient);
         $data = $service->getSpreadsheetData($spreadsheetId, $domainGSheetObjectFactory->createGSuiteHandlingSpecifications());
 
         $domainGSheetObjects = [];
@@ -103,13 +103,13 @@ class GoogleDriveProcessService
             throw new Exception('Cant parse folder ID from the URL ' . $url);
         }
 
-        $driveService = new GoogleDriveFolderReadService($this->client);
+        $driveService = new GoogleDriveFolderReadService($this->googleAPIClient);
         $spreadsheetFileIds = $driveService->listSpreaadsheetsInFolder($folderId, $recursive, $domainGSheetObjectFactory->createGSuiteHandlingSpecifications());
 
         /**
          * Each Google Sheet tab represents one of these: <Product><Inventory>...data here..</Inventory></Product>.
          */
-        $spreadsheetService = new GoogleSpreadsheetReadService($this->client);
+        $spreadsheetService = new GoogleSpreadsheetReadService($this->googleAPIClient);
         $domainGSheetObjects = [];
         foreach ($spreadsheetFileIds as $spreadsheetFileId) {
             $sheetsData = $spreadsheetService->getSpreadsheetData($spreadsheetFileId, $domainGSheetObjectFactory->createGSuiteHandlingSpecifications());

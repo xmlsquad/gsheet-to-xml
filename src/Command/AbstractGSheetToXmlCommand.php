@@ -15,8 +15,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Google_Service_Drive;
-use Google_Service_Sheets;
+
+
 
 use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
 
@@ -69,27 +69,17 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
             throw new Exception('Credentials file not found. '. PHP_EOL .' Option: ['.$this->getGApiOAuthSecretFileOption($input).']');
         }
 
-        $googleClient = new GoogleAPIClient();
-        $googleClient->authenticateFromCommand(
-            $input,
-            $output,
-            $fullCredentialsPath,
-            //$this->fileOptionToFullPath($this->getGApiAccessTokenFileOption($input)),
-            $this->findGApiAccessTokenFileValue($input, $output),
-            [Google_Service_Drive::DRIVE_READONLY, Google_Service_Sheets::SPREADSHEETS_READONLY],
-            $this->getForceAuthenticateOption($input)
-        );
-
         //Delegate to the concrete class to perform the processing.
         $this->processDataSource(
             $output,
-            $this->createGoogleDriveProcessService($googleClient),
+            $this->createGoogleDriveProcessService( $this->makeAuthenticatedGoogleAPIClient($input, $output, $fullCredentialsPath )),
             $this->getDataSourceOptions($input)
         );
 
         //If all went well.
         return 0;
     }
+
 
     /**
      * The concrete method that processes the Google Url.
