@@ -5,13 +5,13 @@ namespace XmlSquad\GsheetXml\Command;
 
 use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
 
-use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
+use XmlSquad\Library\Application\Service\GoogleDriveProcessService;
 
 use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
 
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
 
-use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+use XmlSquad\Library\Model\Domain\DomainGSheetObjectFactoryInterface;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -57,7 +57,7 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
     protected function processDataSource(OutputInterface $output, $service, $dataSourceOptions)
     {
         $this->typeCheckGoogleDriveProcessService($service);
-        $output->writeln($service->googleUrlToXml($dataSourceOptions['url'], $dataSourceOptions['recursive'], $this->doCreateDomainGSheetObjectFactory()));
+        $output->writeln($service->processGoogleUrl($this->doCreateGoogleDriveProcessor(),$dataSourceOptions['url'], $dataSourceOptions['recursive'], $this->doCreateDomainGSheetObjectFactory()));
     }
 
     protected function typeCheckGoogleDriveProcessService(GoogleDriveProcessService $service){
@@ -85,7 +85,7 @@ class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
      *
      * @return XmlSerializer
      */
-    protected function doCreateXmlSerializer(){
+    protected function doCreateGoogleDriveProcessor(){
         return new XmlSerializer();
     }
 

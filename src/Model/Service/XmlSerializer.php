@@ -6,16 +6,17 @@ use DOMDocument;
 use XmlSquad\GsheetXml\Model\Domain\Inventory;
 use XmlSquad\GsheetXml\Model\Domain\StockItem;
 
-use XmlSquad\GsheetXml\Model\Service\XmlSerializerInterface;
 
-class XmlSerializer implements XmlSerializerInterface
+use XmlSquad\Library\GoogleAPI\GoogleDriveProcessorInterface;
+
+class XmlSerializer implements GoogleDriveProcessorInterface
 {
 
     /**
      * Satisfies interface method.
+     * Invoked in XmlSquad\Library\Application\Service\GoogleDriveProcessService
      */
-
-    public function serializeDomainGSheetObjects(array $inventories)
+    public function processDomainGSheetObjects(array $inventories)
     {
         $dom = new DomDocument("1.0", "UTF-8");
         $products = $dom->createElement('Products');

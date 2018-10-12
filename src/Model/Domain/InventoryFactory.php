@@ -2,7 +2,7 @@
 
 namespace XmlSquad\GsheetXml\Model\Domain;
 
-use XmlSquad\GsheetXml\Model\Domain\DomainGSheetObjectFactoryInterface;
+use XmlSquad\Library\Model\Domain\DomainGSheetObjectFactoryInterface;
 use XmlSquad\Library\GoogleAPI\GSuiteHandlingSpecificationsInterface;
 use XmlSquad\Library\GoogleAPI\GSuiteHandlingSpecifications;
 

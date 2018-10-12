@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 
 
-use XmlSquad\GsheetXml\Application\Service\GoogleDriveProcessService;
+use XmlSquad\Library\Application\Service\GoogleDriveProcessService;
 
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
@@ -141,9 +141,7 @@ abstract class AbstractGSheetToXmlCommand extends AbstractCommand
     protected function createGoogleDriveProcessService(
         GoogleAPIClient $client){
 
-        return new GoogleDriveProcessService(
-            $client,
-            $this->doCreateXmlSerializer());
+        return new GoogleDriveProcessService($client);
     }
 
 
