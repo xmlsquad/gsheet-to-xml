@@ -46,7 +46,7 @@ use XmlSquad\Library\Command\AbstractCommand;
  * @author Zoran Antolović
  * @author Johnnie Walker
  */
-abstract class AbstractGSheetToXmlCommand extends AbstractCommand
+abstract class AbstractGSheetProcessingCommand extends AbstractCommand
 {
 
     /**

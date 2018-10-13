@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Command;
 
 
-use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
+use XmlSquad\GsheetXml\Command\AbstractGSheetProcessingCommand;
 use XmlSquad\Library\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
@@ -28,7 +28,7 @@ use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
  * @author Zoran Antolović
  * @author Johnnie Walker
  */
-class GsheetToXmlCommand extends AbstractGSheetToXmlCommand
+class GsheetToXmlCommand extends AbstractGSheetProcessingCommand
 {
     protected function configure()
     {
