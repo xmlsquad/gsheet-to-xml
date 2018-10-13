@@ -4,18 +4,12 @@ namespace XmlSquad\GsheetXml\Command;
 
 
 use XmlSquad\GsheetXml\Command\AbstractGSheetToXmlCommand;
-
 use XmlSquad\Library\Application\Service\GoogleDriveProcessService;
-
 use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
-
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
-
 use XmlSquad\Library\Model\Domain\DomainGSheetObjectFactoryInterface;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use XmlSquad\Library\GoogleAPI\GoogleAPIClient;
 
 /**
