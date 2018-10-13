@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Command;
 
 
-use XmlSquad\GsheetXml\Command\AbstractGSheetProcessingCommand;
+use XmlSquad\Library\Command\AbstractGSheetProcessingCommand;
 use XmlSquad\Library\Application\Service\GoogleDriveProcessService;
 use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
