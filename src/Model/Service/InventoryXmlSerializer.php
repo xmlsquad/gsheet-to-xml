@@ -9,7 +9,14 @@ use XmlSquad\GsheetXml\Model\Domain\StockItem;
 
 use XmlSquad\Library\GoogleAPI\GoogleDriveProcessorInterface;
 
-class XmlSerializer implements GoogleDriveProcessorInterface
+/**
+ * Class InventoryXmlSerializer
+ *
+ * Given an array of Inventory objects drawn from tabs from a set of GSheets, write them out as Xml.
+ *
+ * @package XmlSquad\GsheetXml\Model\Service
+ */
+class InventoryXmlSerializer implements GoogleDriveProcessorInterface
 {
 
     /**

@@ -3,7 +3,7 @@
 namespace XmlSquad\GsheetXml\Test;
 
 
-use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\Service\InventoryXmlSerializer;
 use XmlSquad\GsheetXml\Model\Domain\Inventory;
 use XmlSquad\Library\Model\Domain\DomainGSheetObjectFactoryInterface;
 use XmlSquad\GsheetXml\Model\Domain\StockItem;
@@ -46,7 +46,7 @@ class InventoryXmlSerializationTest extends TestCase
 
         $inventory->setStockItems($stockItems);
 
-        $serializer = new XmlSerializer();
+        $serializer = new InventoryXmlSerializer();
         $xml = $serializer->processDomainGSheetObjects([$inventory]);
 
         $expectedXml = <<<XML

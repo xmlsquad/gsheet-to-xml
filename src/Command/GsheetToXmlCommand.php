@@ -5,7 +5,7 @@ namespace XmlSquad\GsheetXml\Command;
 
 use XmlSquad\Library\Command\AbstractGSheetProcessingCommand;
 use XmlSquad\Library\Application\Service\GoogleDriveProcessService;
-use XmlSquad\GsheetXml\Model\Service\XmlSerializer;
+use XmlSquad\GsheetXml\Model\Service\InventoryXmlSerializer;
 use XmlSquad\GsheetXml\Model\Domain\InventoryFactory;
 use XmlSquad\Library\Model\Domain\DomainGSheetObjectFactoryInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -77,10 +77,10 @@ class GsheetToXmlCommand extends AbstractGSheetProcessingCommand
      * Creates the class that converts the model to XML.
      *
      *
-     * @return XmlSerializer
+     * @return InventoryXmlSerializer
      */
     protected function doCreateGoogleDriveProcessor(){
-        return new XmlSerializer();
+        return new InventoryXmlSerializer();
     }
 
     /**
