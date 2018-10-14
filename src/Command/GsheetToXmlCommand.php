@@ -36,7 +36,7 @@ class GsheetToXmlCommand extends AbstractGSheetProcessingCommand
             ->setName('inventory:gsheet-to-xml')
             ->setDescription('Convert Inventory GSheet file to XML')
             ->setHelp('Fetch and convert Google Drive Folder / Sheets to XML.')
-            ->configureGenericOptions();
+            ->configureGSheetProcessingConsoleParameters();
     }
 
     /**
