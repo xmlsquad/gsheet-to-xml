@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cc6d3d8a43548dd22d3b4967f3b6000",
+    "content-hash": "771e4dca33fb8689f45f5b2f971d00e5",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -1083,7 +1083,7 @@
         },
         {
             "name": "xmlsquad/xml-authoring-library",
-            "version": "v0.3.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xmlsquad/xml-authoring-library.git",
@@ -2537,7 +2537,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "xmlsquad/xml-authoring-library": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
