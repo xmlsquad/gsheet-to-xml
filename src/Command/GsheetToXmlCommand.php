@@ -36,6 +36,8 @@ class GsheetToXmlCommand extends AbstractGSheetProcessingCommand
             ->setName('inventory:gsheet-to-xml')
             ->setDescription('Convert Inventory GSheet file to XML')
             ->setHelp('Fetch and convert Google Drive Folder / Sheets to XML.')
+            ->configureGApiServiceAccountCredentialsFileOption(
+                'Path to the Google gApiServiceAccountCredentialsFile JSON relative to the current working directory')
             ->configureGSheetProcessingConsoleParameters();
     }
 
@@ -51,7 +53,7 @@ class GsheetToXmlCommand extends AbstractGSheetProcessingCommand
     protected function processDataSource(OutputInterface $output, $service, $dataSourceOptions)
     {
         $this->typeCheckGoogleDriveProcessService($service);
-        $output->writeln($service->processGoogleUrl($this->doCreateGoogleDriveProcessor(),$dataSourceOptions['url'], $dataSourceOptions['recursive'], $this->doCreateDomainGSheetObjectFactory()));
+        $output->writeln($service->processGoogleUrl($this->doCreateGoogleDriveProcessor(),$dataSourceOptions['url'], $dataSourceOptions['recursive'], $this->doCreateDomainGSheetObjectFactory()), OutputInterface::VERBOSITY_NORMAL);
     }
 
     protected function typeCheckGoogleDriveProcessService(GoogleDriveProcessService $service){
